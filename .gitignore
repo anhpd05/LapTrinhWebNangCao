@@ -1,0 +1,40 @@
+# Thư viện cài bằng npm - nặng (31MB) và cài lại đc bằng npm install
+# nên ko cần đẩy lên git
+node_modules/
+.pnp
+.pnp.js
+
+# Log lỗi khi npm/yarn cài fail
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+logs/
+*.log
+
+# File build ra từ TypeScript, chạy tsc là có lại nên ko commit
+dist/
+build/
+out/
+*.tsbuildinfo
+
+# Biến môi trường, hay chứa mật khẩu / API key -> tuyệt đối ko đẩy lên
+.env
+.env.local
+.env.*.local
+
+# Rác của hệ điều hành
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Cấu hình riêng của editor, mỗi máy mỗi khác
+.vscode/
+.idea/
+*.swp
+
+# Cache của mấy tool
+.cache/
+.parcel-cache/
+.eslintcache
+coverage/
