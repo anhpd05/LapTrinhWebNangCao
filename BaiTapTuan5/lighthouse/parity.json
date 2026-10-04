@@ -1,0 +1,227 @@
+{
+  "before": {
+    "checksum1000": "716d1ef9",
+    "lowercase": 121,
+    "uppercase": 121,
+    "laptops": 133,
+    "asc": [
+      {
+        "id": "711",
+        "price": 1183000
+      },
+      {
+        "id": "496",
+        "price": 1335000
+      },
+      {
+        "id": "839",
+        "price": 1469000
+      }
+    ],
+    "desc": [
+      {
+        "id": "44",
+        "price": 49750000
+      },
+      {
+        "id": "897",
+        "price": 49612000
+      },
+      {
+        "id": "480",
+        "price": 49492000
+      }
+    ],
+    "deletedId": "44",
+    "afterDelete": 132,
+    "editedId": "711",
+    "validation": [
+      "price:-1",
+      "price:1e308",
+      "price:1.5",
+      "empty-name",
+      "stock:1001"
+    ],
+    "totals": {
+      "totalStock": "33790",
+      "totalValue": "905659437024",
+      "productCount": "132"
+    },
+    "categories": [
+      {
+        "category": "Điện thoại",
+        "products": "0",
+        "stock": "0",
+        "value": "0"
+      },
+      {
+        "category": "Laptop",
+        "products": "132",
+        "stock": "33790",
+        "value": "905659437024"
+      },
+      {
+        "category": "Máy tính bảng",
+        "products": "0",
+        "stock": "0",
+        "value": "0"
+      },
+      {
+        "category": "Phụ kiện",
+        "products": "0",
+        "stock": "0",
+        "value": "0"
+      },
+      {
+        "category": "Âm thanh",
+        "products": "0",
+        "stock": "0",
+        "value": "0"
+      },
+      {
+        "category": "Đồng hồ thông minh",
+        "products": "0",
+        "stock": "0",
+        "value": "0"
+      },
+      {
+        "category": "Màn hình",
+        "products": "0",
+        "stock": "0",
+        "value": "0"
+      },
+      {
+        "category": "Thiết bị mạng",
+        "products": "0",
+        "stock": "0",
+        "value": "0"
+      }
+    ],
+    "horizontal": {
+      "scrollable": true,
+      "moved": true
+    },
+    "pageOverflow": false,
+    "n0": 0,
+    "nabc": 10000,
+    "n999999": 50000,
+    "checksum10000": "ee0af36b",
+    "dom": 100049
+  },
+  "after": {
+    "checksum1000": "716d1ef9",
+    "lowercase": 121,
+    "uppercase": 121,
+    "laptops": 133,
+    "asc": [
+      {
+        "id": "711",
+        "price": 1183000
+      },
+      {
+        "id": "496",
+        "price": 1335000
+      },
+      {
+        "id": "839",
+        "price": 1469000
+      }
+    ],
+    "desc": [
+      {
+        "id": "44",
+        "price": 49750000
+      },
+      {
+        "id": "897",
+        "price": 49612000
+      },
+      {
+        "id": "480",
+        "price": 49492000
+      }
+    ],
+    "deletedId": "44",
+    "afterDelete": 132,
+    "editedId": "711",
+    "validation": [
+      "price:-1",
+      "price:1e308",
+      "price:1.5",
+      "empty-name",
+      "stock:1001"
+    ],
+    "totals": {
+      "totalStock": "33790",
+      "totalValue": "905659437024",
+      "productCount": "132"
+    },
+    "categories": [
+      {
+        "category": "Điện thoại",
+        "products": "0",
+        "stock": "0",
+        "value": "0"
+      },
+      {
+        "category": "Laptop",
+        "products": "132",
+        "stock": "33790",
+        "value": "905659437024"
+      },
+      {
+        "category": "Máy tính bảng",
+        "products": "0",
+        "stock": "0",
+        "value": "0"
+      },
+      {
+        "category": "Phụ kiện",
+        "products": "0",
+        "stock": "0",
+        "value": "0"
+      },
+      {
+        "category": "Âm thanh",
+        "products": "0",
+        "stock": "0",
+        "value": "0"
+      },
+      {
+        "category": "Đồng hồ thông minh",
+        "products": "0",
+        "stock": "0",
+        "value": "0"
+      },
+      {
+        "category": "Màn hình",
+        "products": "0",
+        "stock": "0",
+        "value": "0"
+      },
+      {
+        "category": "Thiết bị mạng",
+        "products": "0",
+        "stock": "0",
+        "value": "0"
+      }
+    ],
+    "horizontal": {
+      "scrollable": true,
+      "moved": true
+    },
+    "pageOverflow": false,
+    "n0": 0,
+    "nabc": 10000,
+    "n999999": 50000,
+    "checksum10000": "ee0af36b",
+    "dom": 267
+  },
+  "lazyRetry": {
+    "retryWorked": false,
+    "reloadRequired": true
+  },
+  "status": "passed",
+  "sourceHashBefore": "ff7ea8502e236f2afdc7e86aa654c9e21a849f2f52723b14925379b1ca1eb696",
+  "completedAt": "2026-10-04T15:45:28.250Z"
+}

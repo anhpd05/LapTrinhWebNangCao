@@ -1,0 +1,23 @@
+{
+  "page": "before",
+  "buildHash": "285db2571d8982af3580dcbe5978f9299849db94099cdcac58bf04bbc2f547b3",
+  "createdAt": "2026-10-04T15:36:40.252Z",
+  "files": [
+    {
+      "path": "assets/before-GGVpE6GS.js",
+      "bytes": 386928
+    },
+    {
+      "path": "assets/jsx-runtime-BEq9GgSr.css",
+      "bytes": 8021
+    },
+    {
+      "path": "assets/jsx-runtime-BK3LYhNy.js",
+      "bytes": 220167
+    },
+    {
+      "path": "before.html",
+      "bytes": 671
+    }
+  ]
+}

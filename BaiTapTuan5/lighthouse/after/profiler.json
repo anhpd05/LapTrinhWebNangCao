@@ -1,0 +1,143 @@
+{
+  "page": "after",
+  "n": 10000,
+  "url": "http://127.0.0.1:4174/after.html?n=10000",
+  "buildMode": "profiling",
+  "status": "ok",
+  "identityChanged": false,
+  "scenarios": {
+    "a": {
+      "status": "ok",
+      "description": "Edit the stock of the first row via the form and save (evidence for memo + useCallback + immutable update): rowRender",
+      "renderedRowsBefore": 22,
+      "perf": {
+        "rowRender": 1,
+        "generate": 0,
+        "filterSort": 1,
+        "appCommits": 4,
+        "appActualMs": 27.900000005960464,
+        "appMaxMs": 27.5
+      },
+      "checkpoints": [
+        {
+          "step": "afterOpenForm",
+          "perf": {
+            "rowRender": 0,
+            "generate": 0,
+            "filterSort": 0,
+            "appCommits": 4,
+            "appActualMs": 5.100000001490116,
+            "appMaxMs": 3.5
+          }
+        },
+        {
+          "step": "afterSave",
+          "perf": {
+            "rowRender": 1,
+            "generate": 0,
+            "filterSort": 1,
+            "appCommits": 4,
+            "appActualMs": 27.900000005960464,
+            "appMaxMs": 27.5
+          }
+        }
+      ],
+      "rowId": "1",
+      "oldStock": 433,
+      "newStock": 434,
+      "revisionBefore": 0,
+      "revisionAfter": 1,
+      "renderedRowsAfter": 22,
+      "wallMs": 1795,
+      "screenshot": "lighthouse/screenshots/after-profiler-a.png"
+    },
+    "b": {
+      "status": "ok",
+      "description": "Open the edit form then cancel, list state untouched (evidence for lazy initializer + useMemo): generate, filterSort",
+      "renderedRowsBefore": 22,
+      "perf": {
+        "rowRender": 0,
+        "generate": 0,
+        "filterSort": 0,
+        "appCommits": 5,
+        "appActualMs": 7.100000008940697,
+        "appMaxMs": 4.200000002980232
+      },
+      "checkpoints": [
+        {
+          "step": "afterOpenForm",
+          "perf": {
+            "rowRender": 0,
+            "generate": 0,
+            "filterSort": 0,
+            "appCommits": 4,
+            "appActualMs": 6.100000008940697,
+            "appMaxMs": 4.200000002980232
+          }
+        },
+        {
+          "step": "afterCancel",
+          "perf": {
+            "rowRender": 0,
+            "generate": 0,
+            "filterSort": 0,
+            "appCommits": 5,
+            "appActualMs": 7.100000008940697,
+            "appMaxMs": 4.200000002980232
+          }
+        }
+      ],
+      "renderedRowsAfter": 22,
+      "wallMs": 1568,
+      "screenshot": "lighthouse/screenshots/after-profiler-b.png"
+    },
+    "c": {
+      "status": "ok",
+      "description": "Type \"dien thoai\" then click #sort-price (combined evidence of all techniques, not memo alone): App commits / actualMs / maxMs",
+      "renderedRowsBefore": 22,
+      "perf": {
+        "rowRender": 85,
+        "generate": 0,
+        "filterSort": 11,
+        "appCommits": 22,
+        "appActualMs": 206.70000000298023,
+        "appMaxMs": 22.799999997019768
+      },
+      "checkpoints": [
+        {
+          "step": "afterTyping",
+          "perf": {
+            "rowRender": 63,
+            "generate": 0,
+            "filterSort": 10,
+            "appCommits": 20,
+            "appActualMs": 182.89999999850988,
+            "appMaxMs": 21.400000005960464
+          }
+        },
+        {
+          "step": "afterSort",
+          "perf": {
+            "rowRender": 85,
+            "generate": 0,
+            "filterSort": 11,
+            "appCommits": 22,
+            "appActualMs": 206.70000000298023,
+            "appMaxMs": 22.799999997019768
+          }
+        }
+      ],
+      "resultCount": 1243,
+      "renderedRowsAfter": 22,
+      "wallMs": 1858,
+      "screenshot": "lighthouse/screenshots/after-profiler-c.png"
+    }
+  },
+  "checksum": "ee0af36b",
+  "dataN": 10000,
+  "chromeVersion": "154.0.8037.93",
+  "nodeVersion": "v24.14.0",
+  "sourceHash": "2d9afa4b0b748eb48053f46508dd32ba12da3de0ead4817347b9783de3b112b2",
+  "buildHash": "90e91a4c3a999de643a5003c9b1e70224b515dc45a46f99b1726db5332feb421",
+  "generatedAt": "2026-10-04T15:48:17.732Z"
+}

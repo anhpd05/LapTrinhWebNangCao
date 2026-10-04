@@ -1,0 +1,16 @@
+{
+  "page": "before",
+  "n": 10000,
+  "url": "http://127.0.0.1:4173/before.html?n=10000",
+  "sourceHash": "ff7ea8502e236f2afdc7e86aa654c9e21a849f2f52723b14925379b1ca1eb696",
+  "buildHash": "91ef64c8bd1ee60988865b66b52467888471cdf078bc9958bb811be5b6b57087",
+  "nodeVersion": "v24.14.0",
+  "status": "runtime-error",
+  "code": "PROTOCOL_TIMEOUT",
+  "message": "Waiting for DevTools protocol response has exceeded the allotted time. (Method: Runtime.evaluate)",
+  "score": null,
+  "failedAudits": [],
+  "lighthouseVersion": "13.5.0",
+  "chromeVersion": "154.0.0.0",
+  "fetchTime": "2026-10-04T16:06:55.411Z"
+}

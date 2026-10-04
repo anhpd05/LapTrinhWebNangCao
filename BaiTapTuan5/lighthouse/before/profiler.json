@@ -1,0 +1,143 @@
+{
+  "page": "before",
+  "n": 10000,
+  "url": "http://127.0.0.1:4174/before.html?n=10000",
+  "buildMode": "profiling",
+  "status": "ok",
+  "identityChanged": false,
+  "scenarios": {
+    "a": {
+      "status": "ok",
+      "description": "Edit the stock of the first row via the form and save (evidence for memo + useCallback + immutable update): rowRender",
+      "renderedRowsBefore": 10000,
+      "perf": {
+        "rowRender": 10000,
+        "generate": 1,
+        "filterSort": 1,
+        "appCommits": 4,
+        "appActualMs": 156.60000000149012,
+        "appMaxMs": 156.1000000089407
+      },
+      "checkpoints": [
+        {
+          "step": "afterOpenForm",
+          "perf": {
+            "rowRender": 10000,
+            "generate": 1,
+            "filterSort": 1,
+            "appCommits": 1,
+            "appActualMs": 164.6999999731779,
+            "appMaxMs": 164.6999999731779
+          }
+        },
+        {
+          "step": "afterSave",
+          "perf": {
+            "rowRender": 10000,
+            "generate": 1,
+            "filterSort": 1,
+            "appCommits": 4,
+            "appActualMs": 156.60000000149012,
+            "appMaxMs": 156.1000000089407
+          }
+        }
+      ],
+      "rowId": "1",
+      "oldStock": 433,
+      "newStock": 434,
+      "revisionBefore": 0,
+      "revisionAfter": 1,
+      "renderedRowsAfter": 10000,
+      "wallMs": 8605,
+      "screenshot": "lighthouse/screenshots/before-profiler-a.png"
+    },
+    "b": {
+      "status": "ok",
+      "description": "Open the edit form then cancel, list state untouched (evidence for lazy initializer + useMemo): generate, filterSort",
+      "renderedRowsBefore": 10000,
+      "perf": {
+        "rowRender": 20000,
+        "generate": 2,
+        "filterSort": 2,
+        "appCommits": 2,
+        "appActualMs": 321.00000001490116,
+        "appMaxMs": 166.7999999895692
+      },
+      "checkpoints": [
+        {
+          "step": "afterOpenForm",
+          "perf": {
+            "rowRender": 10000,
+            "generate": 1,
+            "filterSort": 1,
+            "appCommits": 1,
+            "appActualMs": 154.20000002533197,
+            "appMaxMs": 154.20000002533197
+          }
+        },
+        {
+          "step": "afterCancel",
+          "perf": {
+            "rowRender": 20000,
+            "generate": 2,
+            "filterSort": 2,
+            "appCommits": 2,
+            "appActualMs": 321.00000001490116,
+            "appMaxMs": 166.7999999895692
+          }
+        }
+      ],
+      "renderedRowsAfter": 10000,
+      "wallMs": 8593,
+      "screenshot": "lighthouse/screenshots/before-profiler-b.png"
+    },
+    "c": {
+      "status": "ok",
+      "description": "Type \"dien thoai\" then click #sort-price (combined evidence of all techniques, not memo alone): App commits / actualMs / maxMs",
+      "renderedRowsBefore": 10000,
+      "perf": {
+        "rowRender": 19890,
+        "generate": 11,
+        "filterSort": 11,
+        "appCommits": 11,
+        "appActualMs": 568.5999999195337,
+        "appMaxMs": 151.59999995678663
+      },
+      "checkpoints": [
+        {
+          "step": "afterTyping",
+          "perf": {
+            "rowRender": 18647,
+            "generate": 10,
+            "filterSort": 10,
+            "appCommits": 10,
+            "appActualMs": 526.199999935925,
+            "appMaxMs": 151.59999995678663
+          }
+        },
+        {
+          "step": "afterSort",
+          "perf": {
+            "rowRender": 19890,
+            "generate": 11,
+            "filterSort": 11,
+            "appCommits": 11,
+            "appActualMs": 568.5999999195337,
+            "appMaxMs": 151.59999995678663
+          }
+        }
+      ],
+      "resultCount": 1243,
+      "renderedRowsAfter": 1243,
+      "wallMs": 7956,
+      "screenshot": "lighthouse/screenshots/before-profiler-c.png"
+    }
+  },
+  "checksum": "ee0af36b",
+  "dataN": 10000,
+  "chromeVersion": "154.0.8037.93",
+  "nodeVersion": "v24.14.0",
+  "sourceHash": "ff7ea8502e236f2afdc7e86aa654c9e21a849f2f52723b14925379b1ca1eb696",
+  "buildHash": "8dfae140a266b16235c497fd64bf82b82a1f25a3fb45bfaaccff64ca72117007",
+  "generatedAt": "2026-10-04T15:48:10.740Z"
+}

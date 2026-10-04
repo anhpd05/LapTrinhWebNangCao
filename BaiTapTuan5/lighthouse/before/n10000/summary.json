@@ -1,0 +1,160 @@
+{
+  "page": "before",
+  "n": 10000,
+  "url": "http://127.0.0.1:4173/before.html?n=10000",
+  "attempted": 5,
+  "valid": 5,
+  "status": "ok",
+  "runs": [
+    {
+      "index": 1,
+      "file": "run-1.json",
+      "status": "ok",
+      "code": null,
+      "message": "",
+      "fetchTime": "2026-10-04T15:33:35.138Z",
+      "warnings": 0,
+      "metrics": {
+        "score": 60,
+        "FCP": 1804.754,
+        "LCP": 2942.5654999999997,
+        "TBT": 5726.1230000000005,
+        "CLS": 0,
+        "SI": 5164.102034540184
+      }
+    },
+    {
+      "index": 2,
+      "file": "run-2.json",
+      "status": "ok",
+      "code": null,
+      "message": "",
+      "fetchTime": "2026-10-04T15:34:12.924Z",
+      "warnings": 0,
+      "metrics": {
+        "score": 58,
+        "FCP": 1811.2348,
+        "LCP": 3063.9261,
+        "TBT": 6164.882599999999,
+        "CLS": 0,
+        "SI": 5454.047248948693
+      }
+    },
+    {
+      "index": 3,
+      "file": "run-3.json",
+      "status": "ok",
+      "code": null,
+      "message": "",
+      "fetchTime": "2026-10-04T15:34:47.117Z",
+      "warnings": 0,
+      "metrics": {
+        "score": 60,
+        "FCP": 1808.1672,
+        "LCP": 2868.6254,
+        "TBT": 5702.9164,
+        "CLS": 0,
+        "SI": 5035.770086450657
+      }
+    },
+    {
+      "index": 4,
+      "file": "run-4.json",
+      "status": "ok",
+      "code": null,
+      "message": "",
+      "fetchTime": "2026-10-04T15:35:19.604Z",
+      "warnings": 0,
+      "metrics": {
+        "score": 60,
+        "FCP": 1807.9496,
+        "LCP": 2920.9622,
+        "TBT": 5738.5252,
+        "CLS": 0,
+        "SI": 5115.493074614553
+      }
+    },
+    {
+      "index": 5,
+      "file": "run-5.json",
+      "status": "ok",
+      "code": null,
+      "message": "",
+      "fetchTime": "2026-10-04T15:35:42.132Z",
+      "warnings": 0,
+      "metrics": {
+        "score": 57,
+        "FCP": 1808.8314,
+        "LCP": 3350.12355,
+        "TBT": 4741.0842999999995,
+        "CLS": 0,
+        "SI": 5299.630248943149
+      }
+    }
+  ],
+  "sourceHash": "ff7ea8502e236f2afdc7e86aa654c9e21a849f2f52723b14925379b1ca1eb696",
+  "buildHash": "285db2571d8982af3580dcbe5978f9299849db94099cdcac58bf04bbc2f547b3",
+  "nodeVersion": "v24.14.0",
+  "errorCodes": [],
+  "score": 60,
+  "FCP": 1804.754,
+  "LCP": 2942.5654999999997,
+  "TBT": 5726.1230000000005,
+  "CLS": 0,
+  "SI": 5164.102034540184,
+  "min": {
+    "score": 57,
+    "FCP": 1804.754,
+    "LCP": 2868.6254,
+    "TBT": 4741.0842999999995,
+    "CLS": 0,
+    "SI": 5035.770086450657
+  },
+  "max": {
+    "score": 60,
+    "FCP": 1811.2348,
+    "LCP": 3350.12355,
+    "TBT": 6164.882599999999,
+    "CLS": 0,
+    "SI": 5454.047248948693
+  },
+  "domElements": 100049,
+  "domCount": {
+    "status": "ok",
+    "domElements": 100049,
+    "checksum": "ee0af36b",
+    "dataN": 10000,
+    "viewport": "412x823"
+  },
+  "domSizeInsight": {
+    "numericValue": 100051,
+    "totalElements": 100051,
+    "maxDepth": 11,
+    "maxChildren": 10000,
+    "score": 1,
+    "scoreDisplayMode": "informative"
+  },
+  "unusedJsBytes": 135309,
+  "totalBytes": 184567,
+  "checksum": "ee0af36b",
+  "dataN": 10000,
+  "lighthouseVersion": "13.5.0",
+  "chromeVersion": "154.0.0.0",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+  "benchmarkIndex": 1857,
+  "throttling": {
+    "rttMs": 150,
+    "throughputKbps": 1638.4,
+    "requestLatencyMs": 562.5,
+    "downloadThroughputKbps": 1474.5600000000002,
+    "uploadThroughputKbps": 675,
+    "cpuSlowdownMultiplier": 4
+  },
+  "throttlingMethod": "simulate",
+  "formFactor": "mobile",
+  "fetchTime": "2026-10-04T15:33:35.138Z",
+  "firstFetchTime": "2026-10-04T15:33:35.138Z",
+  "lastFetchTime": "2026-10-04T15:35:42.132Z",
+  "medianRunIndex": 1,
+  "medianFile": "run-1.json"
+}

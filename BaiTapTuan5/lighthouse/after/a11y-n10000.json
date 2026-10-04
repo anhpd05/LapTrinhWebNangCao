@@ -1,0 +1,16 @@
+{
+  "page": "after",
+  "n": 10000,
+  "url": "http://127.0.0.1:4173/after.html?n=10000",
+  "sourceHash": "2d9afa4b0b748eb48053f46508dd32ba12da3de0ead4817347b9783de3b112b2",
+  "buildHash": "7296e4cb97823fa5b928255e3cb29d34def4f703d9c471a40962da811af83f10",
+  "nodeVersion": "v24.14.0",
+  "status": "ok",
+  "code": null,
+  "message": "",
+  "score": 100,
+  "failedAudits": [],
+  "lighthouseVersion": "13.5.0",
+  "chromeVersion": "154.0.0.0",
+  "fetchTime": "2026-10-04T16:08:09.617Z"
+}

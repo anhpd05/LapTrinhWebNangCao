@@ -1,0 +1,39 @@
+{
+  "page": "before",
+  "marker": "recharts-wrapper",
+  "entryKey": "before.html",
+  "eagerHasRecharts": true,
+  "lazyHasRecharts": false,
+  "initialJsBytes": 607095,
+  "initialJsGzipBytes": 179761,
+  "initialCssBytes": 8021,
+  "eagerJs": [
+    {
+      "file": "assets/before-GGVpE6GS.js",
+      "bytes": 386928,
+      "gzipBytes": 111651,
+      "hasRecharts": true
+    },
+    {
+      "file": "assets/jsx-runtime-BK3LYhNy.js",
+      "bytes": 220167,
+      "gzipBytes": 68110,
+      "hasRecharts": false
+    }
+  ],
+  "lazyJs": [],
+  "eagerCss": [
+    {
+      "file": "assets/jsx-runtime-BEq9GgSr.css",
+      "bytes": 8021,
+      "gzipBytes": 2472,
+      "hasRecharts": false
+    }
+  ],
+  "ok": true,
+  "problems": [],
+  "sourceHash": "ff7ea8502e236f2afdc7e86aa654c9e21a849f2f52723b14925379b1ca1eb696",
+  "buildHash": "285db2571d8982af3580dcbe5978f9299849db94099cdcac58bf04bbc2f547b3",
+  "nodeVersion": "v24.14.0",
+  "generatedAt": "2026-10-04T15:33:30.513Z"
+}

@@ -1,0 +1,176 @@
+{
+  "page": "after",
+  "n": 10000,
+  "status": "ok",
+  "missing": [],
+  "failures": {},
+  "files": {
+    "score": {
+      "file": "lighthouse/screenshots/after-score.png",
+      "bytes": 17477,
+      "required": true,
+      "viewport": "1100x900@2"
+    },
+    "metrics": {
+      "file": "lighthouse/screenshots/after-metrics.png",
+      "bytes": 27194,
+      "required": true,
+      "viewport": "1100x900@2"
+    },
+    "filmstrip": {
+      "file": "lighthouse/screenshots/after-filmstrip.png",
+      "bytes": 61350,
+      "required": true,
+      "viewport": "1100x900@2"
+    },
+    "unused-js": {
+      "file": "lighthouse/screenshots/after-unused-js.png",
+      "bytes": 52777,
+      "required": true,
+      "viewport": "1100x900@2"
+    },
+    "dom-size": {
+      "file": "lighthouse/screenshots/after-dom-size.png",
+      "bytes": 98774,
+      "required": true,
+      "viewport": "1100x900@2"
+    },
+    "bytes": {
+      "file": "lighthouse/screenshots/after-bytes.png",
+      "bytes": 87968,
+      "required": false,
+      "viewport": "1100x900@2"
+    },
+    "audit-forced-reflow-insight": {
+      "file": "lighthouse/screenshots/after-audit-forced-reflow-insight.png",
+      "bytes": 57174,
+      "required": false,
+      "viewport": "1100x900@2"
+    },
+    "audit-network-dependency-tree-insight": {
+      "file": "lighthouse/screenshots/after-audit-network-dependency-tree-insight.png",
+      "bytes": 99795,
+      "required": false,
+      "viewport": "1100x900@2"
+    },
+    "audit-render-blocking-insight": {
+      "file": "lighthouse/screenshots/after-audit-render-blocking-insight.png",
+      "bytes": 45126,
+      "required": false,
+      "viewport": "1100x900@2"
+    },
+    "full": {
+      "file": "lighthouse/screenshots/after-full.png",
+      "bytes": 269987,
+      "required": true,
+      "viewport": "1100x900@1 fullPage"
+    },
+    "flow-full": {
+      "file": "lighthouse/screenshots/after-flow-full.png",
+      "bytes": 33995,
+      "required": true,
+      "viewport": "1100x900@1 fullPage"
+    },
+    "app-mobile": {
+      "file": "lighthouse/screenshots/after-app-mobile.png",
+      "bytes": 61832,
+      "required": true,
+      "viewport": "412x823"
+    },
+    "app-desktop": {
+      "file": "lighthouse/screenshots/after-app-desktop.png",
+      "bytes": 134878,
+      "required": true,
+      "viewport": "1280x800"
+    },
+    "app-stats": {
+      "file": "lighthouse/screenshots/after-app-stats.png",
+      "bytes": 107285,
+      "required": true,
+      "viewport": "1280x800"
+    },
+    "app-edit-error": {
+      "file": "lighthouse/screenshots/after-app-edit-error.png",
+      "bytes": 144798,
+      "required": true,
+      "viewport": "1280x800"
+    }
+  },
+  "sourceHash": "2d9afa4b0b748eb48053f46508dd32ba12da3de0ead4817347b9783de3b112b2",
+  "buildHash": "7296e4cb97823fa5b928255e3cb29d34def4f703d9c471a40962da811af83f10",
+  "reportFetchTime": "2026-10-04T15:47:03.576Z",
+  "reportSummarySourceHash": "2d9afa4b0b748eb48053f46508dd32ba12da3de0ead4817347b9783de3b112b2",
+  "reportSummaryBuildHash": "7296e4cb97823fa5b928255e3cb29d34def4f703d9c471a40962da811af83f10",
+  "flowFetchTime": "2026-10-04T15:47:17.647Z",
+  "chromeVersion": "154.0.8037.93",
+  "nodeVersion": "v24.14.0",
+  "app": {
+    "checksum": "ee0af36b",
+    "dataN": 10000,
+    "domElementsMobile": 267,
+    "domElementsDesktop": 267,
+    "statsChart": {
+      "totalStock": "2506184",
+      "totalValue": "62877015698000",
+      "productCount": "10000"
+    },
+    "statsCategories": [
+      {
+        "category": "Điện thoại",
+        "products": "1243",
+        "stock": "312589",
+        "value": "7800008521000"
+      },
+      {
+        "category": "Laptop",
+        "products": "1261",
+        "stock": "318163",
+        "value": "7974391933000"
+      },
+      {
+        "category": "Máy tính bảng",
+        "products": "1216",
+        "stock": "299887",
+        "value": "7530281338000"
+      },
+      {
+        "category": "Phụ kiện",
+        "products": "1258",
+        "stock": "308255",
+        "value": "7803019241000"
+      },
+      {
+        "category": "Âm thanh",
+        "products": "1259",
+        "stock": "314309",
+        "value": "7921705297000"
+      },
+      {
+        "category": "Đồng hồ thông minh",
+        "products": "1237",
+        "stock": "309058",
+        "value": "7757578021000"
+      },
+      {
+        "category": "Màn hình",
+        "products": "1250",
+        "stock": "320039",
+        "value": "7952029649000"
+      },
+      {
+        "category": "Thiết bị mạng",
+        "products": "1276",
+        "stock": "323884",
+        "value": "8138001698000"
+      }
+    ],
+    "statsTotal": {
+      "total": "true",
+      "products": "10000",
+      "stock": "2506184",
+      "value": "62877015698000"
+    },
+    "editErrorMessage": "Giá phải là số nguyên từ 1 đến 100.000.000."
+  },
+  "generatedAt": "2026-10-04T16:08:23.181Z"
+}

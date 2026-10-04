@@ -1,0 +1,126 @@
+{
+  "page": "before",
+  "n": 10000,
+  "url": "http://127.0.0.1:4173/before.html?n=10000",
+  "attempted": 3,
+  "valid": 3,
+  "status": "ok",
+  "runs": [
+    {
+      "index": 1,
+      "file": "run-1.json",
+      "status": "ok",
+      "code": null,
+      "message": "",
+      "fetchTime": "2026-10-04T15:49:30.251Z",
+      "warnings": 0,
+      "metrics": {
+        "score": 57,
+        "FCP": 1971.88335,
+        "LCP": 3218.5889,
+        "TBT": 6015.911100000001,
+        "CLS": 0,
+        "SI": 5585.404491939613
+      }
+    },
+    {
+      "index": 2,
+      "file": "run-2.json",
+      "status": "ok",
+      "code": null,
+      "message": "",
+      "fetchTime": "2026-10-04T15:50:09.422Z",
+      "warnings": 0,
+      "metrics": {
+        "score": 51,
+        "FCP": 1966.25565,
+        "LCP": 3877.8371,
+        "TBT": 6079.1629,
+        "CLS": 0,
+        "SI": 6420.219444741053
+      }
+    },
+    {
+      "index": 3,
+      "file": "run-3.json",
+      "status": "ok",
+      "code": null,
+      "message": "",
+      "fetchTime": "2026-10-04T15:50:48.703Z",
+      "warnings": 0,
+      "metrics": {
+        "score": 59,
+        "FCP": 1976.58435,
+        "LCP": 2977.7229,
+        "TBT": 5382.2771,
+        "CLS": 0,
+        "SI": 5036.025917523641
+      }
+    }
+  ],
+  "sourceHash": "ff7ea8502e236f2afdc7e86aa654c9e21a849f2f52723b14925379b1ca1eb696",
+  "buildHash": "91ef64c8bd1ee60988865b66b52467888471cdf078bc9958bb811be5b6b57087",
+  "nodeVersion": "v24.14.0",
+  "errorCodes": [],
+  "score": 57,
+  "FCP": 1971.88335,
+  "LCP": 3218.5889,
+  "TBT": 6015.911100000001,
+  "CLS": 0,
+  "SI": 5585.404491939613,
+  "min": {
+    "score": 51,
+    "FCP": 1966.25565,
+    "LCP": 2977.7229,
+    "TBT": 5382.2771,
+    "CLS": 0,
+    "SI": 5036.025917523641
+  },
+  "max": {
+    "score": 59,
+    "FCP": 1976.58435,
+    "LCP": 3877.8371,
+    "TBT": 6079.1629,
+    "CLS": 0,
+    "SI": 6420.219444741053
+  },
+  "domElements": 100049,
+  "domCount": {
+    "status": "ok",
+    "domElements": 100049,
+    "checksum": "ee0af36b",
+    "dataN": 10000,
+    "viewport": "412x823"
+  },
+  "domSizeInsight": {
+    "numericValue": 100051,
+    "totalElements": 100051,
+    "maxDepth": 11,
+    "maxChildren": 10000,
+    "score": 1,
+    "scoreDisplayMode": "informative"
+  },
+  "unusedJsBytes": 131187,
+  "totalBytes": 187808,
+  "checksum": "ee0af36b",
+  "dataN": 10000,
+  "lighthouseVersion": "13.5.0",
+  "chromeVersion": "154.0.0.0",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+  "benchmarkIndex": 1804,
+  "throttling": {
+    "rttMs": 150,
+    "throughputKbps": 1638.4,
+    "requestLatencyMs": 562.5,
+    "downloadThroughputKbps": 1474.5600000000002,
+    "uploadThroughputKbps": 675,
+    "cpuSlowdownMultiplier": 4
+  },
+  "throttlingMethod": "simulate",
+  "formFactor": "mobile",
+  "fetchTime": "2026-10-04T15:49:30.251Z",
+  "firstFetchTime": "2026-10-04T15:49:30.251Z",
+  "lastFetchTime": "2026-10-04T15:50:48.703Z",
+  "medianRunIndex": 1,
+  "medianFile": "run-1.json"
+}

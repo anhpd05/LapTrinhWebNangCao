@@ -1,0 +1,126 @@
+{
+  "page": "after",
+  "n": 10000,
+  "url": "http://127.0.0.1:4173/after.html?n=10000",
+  "attempted": 3,
+  "valid": 3,
+  "status": "ok",
+  "runs": [
+    {
+      "index": 1,
+      "file": "run-1.json",
+      "status": "ok",
+      "code": null,
+      "message": "",
+      "fetchTime": "2026-10-04T15:51:11.769Z",
+      "warnings": 0,
+      "metrics": {
+        "score": 96,
+        "FCP": 1509.0441,
+        "LCP": 1643.5441,
+        "TBT": 219,
+        "CLS": 0,
+        "SI": 1509.0441
+      }
+    },
+    {
+      "index": 2,
+      "file": "run-2.json",
+      "status": "ok",
+      "code": null,
+      "message": "",
+      "fetchTime": "2026-10-04T15:51:18.030Z",
+      "warnings": 0,
+      "metrics": {
+        "score": 95,
+        "FCP": 1511.3928,
+        "LCP": 1647.3928,
+        "TBT": 222,
+        "CLS": 0,
+        "SI": 1511.3928
+      }
+    },
+    {
+      "index": 3,
+      "file": "run-3.json",
+      "status": "ok",
+      "code": null,
+      "message": "",
+      "fetchTime": "2026-10-04T15:51:24.763Z",
+      "warnings": 0,
+      "metrics": {
+        "score": 96,
+        "FCP": 1510.7388,
+        "LCP": 1639.7388,
+        "TBT": 208,
+        "CLS": 0,
+        "SI": 1510.7388
+      }
+    }
+  ],
+  "sourceHash": "2d9afa4b0b748eb48053f46508dd32ba12da3de0ead4817347b9783de3b112b2",
+  "buildHash": "7296e4cb97823fa5b928255e3cb29d34def4f703d9c471a40962da811af83f10",
+  "nodeVersion": "v24.14.0",
+  "errorCodes": [],
+  "score": 96,
+  "FCP": 1509.0441,
+  "LCP": 1643.5441,
+  "TBT": 219,
+  "CLS": 0,
+  "SI": 1509.0441,
+  "min": {
+    "score": 95,
+    "FCP": 1509.0441,
+    "LCP": 1639.7388,
+    "TBT": 208,
+    "CLS": 0,
+    "SI": 1509.0441
+  },
+  "max": {
+    "score": 96,
+    "FCP": 1511.3928,
+    "LCP": 1647.3928,
+    "TBT": 222,
+    "CLS": 0,
+    "SI": 1511.3928
+  },
+  "domElements": 267,
+  "domCount": {
+    "status": "ok",
+    "domElements": 267,
+    "checksum": "ee0af36b",
+    "dataN": 10000,
+    "viewport": "412x823"
+  },
+  "domSizeInsight": {
+    "numericValue": 269,
+    "totalElements": 269,
+    "maxDepth": 10,
+    "maxChildren": 22,
+    "score": 1,
+    "scoreDisplayMode": "numeric"
+  },
+  "unusedJsBytes": 36217,
+  "totalBytes": 87927,
+  "checksum": "ee0af36b",
+  "dataN": 10000,
+  "lighthouseVersion": "13.5.0",
+  "chromeVersion": "154.0.0.0",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+  "benchmarkIndex": 1795.5,
+  "throttling": {
+    "rttMs": 150,
+    "throughputKbps": 1638.4,
+    "requestLatencyMs": 562.5,
+    "downloadThroughputKbps": 1474.5600000000002,
+    "uploadThroughputKbps": 675,
+    "cpuSlowdownMultiplier": 4
+  },
+  "throttlingMethod": "simulate",
+  "formFactor": "mobile",
+  "fetchTime": "2026-10-04T15:51:11.769Z",
+  "firstFetchTime": "2026-10-04T15:51:11.769Z",
+  "lastFetchTime": "2026-10-04T15:51:24.763Z",
+  "medianRunIndex": 1,
+  "medianFile": "run-1.json"
+}

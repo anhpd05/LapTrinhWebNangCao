@@ -1,0 +1,31 @@
+{
+  "_jsx-runtime-BEq9GgSr.css": {
+    "file": "assets/jsx-runtime-BEq9GgSr.css",
+    "src": "_jsx-runtime-BEq9GgSr.css"
+  },
+  "_jsx-runtime-BK3LYhNy.js": {
+    "file": "assets/jsx-runtime-BK3LYhNy.js",
+    "name": "jsx-runtime",
+    "css": [
+      "assets/jsx-runtime-BEq9GgSr.css"
+    ]
+  },
+  "before.html": {
+    "file": "assets/before-GGVpE6GS.js",
+    "name": "before",
+    "src": "before.html",
+    "isEntry": true,
+    "imports": [
+      "_jsx-runtime-BK3LYhNy.js"
+    ]
+  },
+  "index.html": {
+    "file": "assets/index-D9bjNv3Z.js",
+    "name": "index",
+    "src": "index.html",
+    "isEntry": true,
+    "imports": [
+      "_jsx-runtime-BK3LYhNy.js"
+    ]
+  }
+}

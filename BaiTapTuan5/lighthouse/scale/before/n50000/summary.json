@@ -1,0 +1,126 @@
+{
+  "page": "before",
+  "n": 50000,
+  "url": "http://127.0.0.1:4173/before.html?n=50000",
+  "attempted": 3,
+  "valid": 3,
+  "status": "ok",
+  "runs": [
+    {
+      "index": 1,
+      "file": "run-1.json",
+      "status": "ok",
+      "code": null,
+      "message": "",
+      "fetchTime": "2026-10-04T15:51:33.935Z",
+      "warnings": 0,
+      "metrics": {
+        "score": 36,
+        "FCP": 1971.4192500000001,
+        "LCP": 6292.779500000001,
+        "TBT": 18753.220500000003,
+        "CLS": 0,
+        "SI": 22616.513091067056
+      }
+    },
+    {
+      "index": 2,
+      "file": "run-2.json",
+      "status": "ok",
+      "code": null,
+      "message": "",
+      "fetchTime": "2026-10-04T15:56:46.480Z",
+      "warnings": 0,
+      "metrics": {
+        "score": 36,
+        "FCP": 1966.19145,
+        "LCP": 6289.2943000000005,
+        "TBT": 18831.2057,
+        "CLS": 0,
+        "SI": 22278.61982465759
+      }
+    },
+    {
+      "index": 3,
+      "file": "run-3.json",
+      "status": "ok",
+      "code": null,
+      "message": "",
+      "fetchTime": "2026-10-04T16:01:30.037Z",
+      "warnings": 0,
+      "metrics": {
+        "score": 36,
+        "FCP": 1965.057,
+        "LCP": 6288.5380000000005,
+        "TBT": 18092.962,
+        "CLS": 0,
+        "SI": 20850.696718509156
+      }
+    }
+  ],
+  "sourceHash": "ff7ea8502e236f2afdc7e86aa654c9e21a849f2f52723b14925379b1ca1eb696",
+  "buildHash": "91ef64c8bd1ee60988865b66b52467888471cdf078bc9958bb811be5b6b57087",
+  "nodeVersion": "v24.14.0",
+  "errorCodes": [],
+  "score": 36,
+  "FCP": 1971.4192500000001,
+  "LCP": 6292.779500000001,
+  "TBT": 18753.220500000003,
+  "CLS": 0,
+  "SI": 22616.513091067056,
+  "min": {
+    "score": 36,
+    "FCP": 1965.057,
+    "LCP": 6288.5380000000005,
+    "TBT": 18092.962,
+    "CLS": 0,
+    "SI": 20850.696718509156
+  },
+  "max": {
+    "score": 36,
+    "FCP": 1971.4192500000001,
+    "LCP": 6292.779500000001,
+    "TBT": 18831.2057,
+    "CLS": 0,
+    "SI": 22616.513091067056
+  },
+  "domElements": 500049,
+  "domCount": {
+    "status": "ok",
+    "domElements": 500049,
+    "checksum": "7f798580",
+    "dataN": 50000,
+    "viewport": "412x823"
+  },
+  "domSizeInsight": {
+    "numericValue": 500051,
+    "totalElements": 500051,
+    "maxDepth": 11,
+    "maxChildren": 50000,
+    "score": 1,
+    "scoreDisplayMode": "informative"
+  },
+  "unusedJsBytes": 131187,
+  "totalBytes": 187808,
+  "checksum": "7f798580",
+  "dataN": 50000,
+  "lighthouseVersion": "13.5.0",
+  "chromeVersion": "154.0.0.0",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+  "benchmarkIndex": 1806,
+  "throttling": {
+    "rttMs": 150,
+    "throughputKbps": 1638.4,
+    "requestLatencyMs": 562.5,
+    "downloadThroughputKbps": 1474.5600000000002,
+    "uploadThroughputKbps": 675,
+    "cpuSlowdownMultiplier": 4
+  },
+  "throttlingMethod": "simulate",
+  "formFactor": "mobile",
+  "fetchTime": "2026-10-04T15:51:33.935Z",
+  "firstFetchTime": "2026-10-04T15:51:33.935Z",
+  "lastFetchTime": "2026-10-04T16:01:30.037Z",
+  "medianRunIndex": 1,
+  "medianFile": "run-1.json"
+}

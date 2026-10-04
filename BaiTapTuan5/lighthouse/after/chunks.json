@@ -1,0 +1,64 @@
+{
+  "page": "after",
+  "marker": "recharts-wrapper",
+  "entryKey": "after.html",
+  "eagerHasRecharts": false,
+  "lazyHasRecharts": true,
+  "initialJsBytes": 260052,
+  "initialJsGzipBytes": 82326,
+  "initialCssBytes": 8021,
+  "eagerJs": [
+    {
+      "file": "assets/after-Dqrb7uwc.js",
+      "bytes": 32527,
+      "gzipBytes": 10292,
+      "hasRecharts": false
+    },
+    {
+      "file": "assets/app-CpOc9-kO.js",
+      "bytes": 211255,
+      "gzipBytes": 65226,
+      "hasRecharts": false
+    },
+    {
+      "file": "assets/format-date-GrrtI72v.js",
+      "bytes": 7369,
+      "gzipBytes": 3426,
+      "hasRecharts": false
+    },
+    {
+      "file": "assets/jsx-runtime-D3jfb0Ew.js",
+      "bytes": 8901,
+      "gzipBytes": 3382,
+      "hasRecharts": false
+    }
+  ],
+  "lazyJs": [
+    {
+      "file": "assets/EditProductForm-C7ZIUq6Y.js",
+      "bytes": 3451,
+      "gzipBytes": 1394,
+      "hasRecharts": false
+    },
+    {
+      "file": "assets/StatsChart-C4jrKxYB.js",
+      "bytes": 373582,
+      "gzipBytes": 106503,
+      "hasRecharts": true
+    }
+  ],
+  "eagerCss": [
+    {
+      "file": "assets/app-BEq9GgSr.css",
+      "bytes": 8021,
+      "gzipBytes": 2472,
+      "hasRecharts": false
+    }
+  ],
+  "ok": true,
+  "problems": [],
+  "sourceHash": "2d9afa4b0b748eb48053f46508dd32ba12da3de0ead4817347b9783de3b112b2",
+  "buildHash": "7296e4cb97823fa5b928255e3cb29d34def4f703d9c471a40962da811af83f10",
+  "nodeVersion": "v24.14.0",
+  "generatedAt": "2026-10-04T15:42:20.284Z"
+}

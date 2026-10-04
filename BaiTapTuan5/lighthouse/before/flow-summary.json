@@ -1,0 +1,52 @@
+{
+  "page": "before",
+  "n": 10000,
+  "url": "http://127.0.0.1:4173/before.html?n=10000",
+  "status": "ok",
+  "problems": [],
+  "runtimeError": null,
+  "stepName": "search + sort",
+  "gatherMode": "timespan",
+  "interactions": [
+    "type \"dien thoai\" (50 ms/key)",
+    "#sort-price click (price-asc)"
+  ],
+  "TBT": {
+    "value": 12101.904,
+    "score": 0,
+    "scoreDisplayMode": "numeric",
+    "displayValue": "12,100 ms"
+  },
+  "CLS": {
+    "value": 0,
+    "score": 1,
+    "scoreDisplayMode": "numeric",
+    "displayValue": "0"
+  },
+  "INP": {
+    "value": 3855.167,
+    "score": 0,
+    "scoreDisplayMode": "numeric",
+    "displayValue": "3,860 ms"
+  },
+  "note": "Timespan TBT sums the blocking time of the whole interaction trace under 4x CPU throttling; it is not comparable with navigation TBT or the navigation score.",
+  "checksum": "ee0af36b",
+  "dataN": 10000,
+  "lighthouseVersion": "13.5.0",
+  "chromeVersion": "154.0.0.0",
+  "nodeVersion": "v24.14.0",
+  "benchmarkIndex": 1686.5,
+  "throttling": {
+    "rttMs": 150,
+    "throughputKbps": 1638.4,
+    "requestLatencyMs": 562.5,
+    "downloadThroughputKbps": 1474.5600000000002,
+    "uploadThroughputKbps": 675,
+    "cpuSlowdownMultiplier": 4
+  },
+  "throttlingMethod": "devtools",
+  "formFactor": "mobile",
+  "fetchTime": "2026-10-04T15:36:18.239Z",
+  "sourceHash": "ff7ea8502e236f2afdc7e86aa654c9e21a849f2f52723b14925379b1ca1eb696",
+  "buildHash": "285db2571d8982af3580dcbe5978f9299849db94099cdcac58bf04bbc2f547b3"
+}
