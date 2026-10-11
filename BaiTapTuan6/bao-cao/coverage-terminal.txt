@@ -1,0 +1,35 @@
+
+> baitaptuan6@0.0.0 test:coverage
+> jest --coverage
+
+PASS src/utils/format-currency.test.ts
+PASS src/features/favorites/favoritesStore.test.ts
+PASS src/features/cart/cartSlice.test.ts
+PASS src/features/products/productsSlice.test.ts
+PASS src/features/products/ProductListThunk.test.tsx
+PASS src/features/cart/CartPanel.test.tsx
+-----------------------|---------|----------|---------|---------|-------------------
+File                   | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-----------------------|---------|----------|---------|---------|-------------------
+All files              |   98.59 |       90 |   96.15 |   99.09 |                   
+ features/cart         |     100 |      100 |     100 |     100 |                   
+  CartItemRow.tsx      |     100 |      100 |     100 |     100 |                   
+  CartPanel.tsx        |     100 |      100 |     100 |     100 |                   
+  cartSlice.ts         |     100 |      100 |     100 |     100 |                   
+ features/favorites    |   89.47 |     62.5 |   84.61 |   91.66 |                   
+  FavoriteButton.tsx   |      75 |       50 |      60 |   83.33 | 22                
+  favoritesStore.ts    |     100 |      100 |     100 |     100 |                   
+ features/products     |     100 |      100 |     100 |     100 |                   
+  ProductCard.tsx      |     100 |      100 |     100 |     100 |                   
+  ProductGrid.tsx      |     100 |      100 |     100 |     100 |                   
+  ProductListThunk.tsx |     100 |      100 |     100 |     100 |                   
+  productsSlice.ts     |     100 |      100 |     100 |     100 |                   
+ utils                 |     100 |      100 |     100 |     100 |                   
+  format-currency.ts   |     100 |      100 |     100 |     100 |                   
+-----------------------|---------|----------|---------|---------|-------------------
+
+Test Suites: 6 passed, 6 total
+Tests:       26 passed, 26 total
+Snapshots:   0 total
+Time:        4.77 s
+Ran all test suites.
