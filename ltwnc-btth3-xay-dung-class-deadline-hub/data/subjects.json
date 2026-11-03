@@ -1,0 +1,30 @@
+[
+  {
+    "slug": "lap-trinh-web-nang-cao",
+    "name": "Lập trình Web nâng cao",
+    "code": "INT1434",
+    "description": "Xây dựng ứng dụng web hiện đại với Next.js, App Router, xác thực và các chiến lược render.",
+    "color": "#2563eb"
+  },
+  {
+    "slug": "co-so-du-lieu",
+    "name": "Cơ sở dữ liệu",
+    "code": "INT1313",
+    "description": "Mô hình quan hệ, SQL, chuẩn hoá lược đồ và thiết kế cơ sở dữ liệu cho ứng dụng thực tế.",
+    "color": "#059669"
+  },
+  {
+    "slug": "mang-may-tinh",
+    "name": "Mạng máy tính",
+    "code": "INT1336",
+    "description": "Mô hình TCP/IP, định tuyến, tầng giao vận và các giao thức ứng dụng thường gặp.",
+    "color": "#d97706"
+  },
+  {
+    "slug": "tri-tue-nhan-tao",
+    "name": "Trí tuệ nhân tạo",
+    "code": "INT1341",
+    "description": "Tìm kiếm, biểu diễn tri thức, học máy cơ bản và các bài toán suy diễn.",
+    "color": "#7c3aed"
+  }
+]
