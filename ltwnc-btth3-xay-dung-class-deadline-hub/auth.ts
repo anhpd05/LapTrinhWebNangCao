@@ -6,6 +6,7 @@ import { z } from 'zod';
 import { authConfig } from './auth.config';
 import { getUserByEmail } from './lib/data';
 import { githubIdentity } from './lib/github-identity';
+import { GITHUB_LOGIN_ENABLED } from './lib/site';
 
 const credentialsSchema = z.object({
   email: z.string().email(),
@@ -62,17 +63,22 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         };
       },
     }),
-    GitHub({
-      userinfo: {
-        url: `${GITHUB_API}/user`,
-        async request({ tokens }: { tokens: { access_token?: string } }) {
-          const res = await fetch(`${GITHUB_API}/user`, { headers: githubHeaders(tokens.access_token) });
-          if (!res.ok) throw new Error(`GitHub /user trả về ${res.status}`);
-          const profile = await res.json();
-          return { ...profile, email: await verifiedPrimaryEmail(tokens.access_token) };
-        },
-      },
-    }),
+    // Chỉ đăng ký khi có OAuth App; thiếu key thì /login cũng không hiện nút (lib/site.ts).
+    ...(GITHUB_LOGIN_ENABLED
+      ? [
+          GitHub({
+            userinfo: {
+              url: `${GITHUB_API}/user`,
+              async request({ tokens }: { tokens: { access_token?: string } }) {
+                const res = await fetch(`${GITHUB_API}/user`, { headers: githubHeaders(tokens.access_token) });
+                if (!res.ok) throw new Error(`GitHub /user trả về ${res.status}`);
+                const profile = await res.json();
+                return { ...profile, email: await verifiedPrimaryEmail(tokens.access_token) };
+              },
+            },
+          }),
+        ]
+      : []),
   ],
   callbacks: {
     ...authConfig.callbacks,

@@ -31,11 +31,19 @@ async function authorize(action: Action) {
   return session;
 }
 
+// revalidatePath với `type` ('page' | 'layout') nhận ĐƯỜNG DẪN FILE ROUTE, gồm cả route group: Next gắn tag
+// cache cho trang là `/(public)/deadlines/[id]/page`. Viết thiếu group (`/deadlines/[id]`) thì không khớp tag
+// nào và trang chi tiết không được làm mới (lỗi đã gặp trên production: xoá #13 xong /deadlines/13 vẫn trả bài cũ).
+const DETAIL_ROUTE = '/(public)/deadlines/[id]';
+const DASHBOARD_ROUTE = '/(app)/dashboard';
+
 /** Làm mới các trang public bị ảnh hưởng khi danh sách deadline đổi. Trả về nhãn để ghi log. */
 function revalidateDeadlineChange(id: string, subjectSlug: string | undefined): string[] {
   const paths: string[] = ['/'];
   revalidatePath('/');
-  revalidatePath('/deadlines/[id]', 'layout');
+  // Chính trang bị thêm/xoá, và mọi trang chi tiết khác (khối "Cùng môn" liệt kê deadline của môn).
+  revalidatePath(`/deadlines/${id}`);
+  revalidatePath(DETAIL_ROUTE, 'page');
   paths.push(`/deadlines/${id}`);
   if (subjectSlug) {
     revalidatePath(`/subjects/${subjectSlug}`);
@@ -43,7 +51,7 @@ function revalidateDeadlineChange(id: string, subjectSlug: string | undefined): 
   }
   revalidatePath('/sitemap.xml');
   revalidatePath('/admin');
-  revalidatePath('/dashboard', 'layout');
+  revalidatePath(DASHBOARD_ROUTE, 'layout');
   // Cố ý KHÔNG revalidate '/deadlines': trang này chỉ làm mới theo chu kỳ 60 giây.
   return paths;
 }
@@ -129,7 +137,7 @@ export async function toggleCompleteAction(
   const userId = session.user.id;
   await toggleCompleted(userId, parsedId.data);
   // Tiến độ là dữ liệu riêng của từng người: chỉ làm mới /dashboard, không đụng trang public.
-  revalidatePath('/dashboard', 'layout');
+  revalidatePath(DASHBOARD_ROUTE, 'layout');
 
   return { ok: true, completedIds: await getCompletedIds(userId) };
 }

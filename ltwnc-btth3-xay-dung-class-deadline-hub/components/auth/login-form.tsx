@@ -22,7 +22,7 @@ const OAUTH_ERRORS: Record<string, string> = {
 };
 const OAUTH_ERROR_FALLBACK = 'Không đăng nhập được bằng GitHub. Thử lại sau.';
 
-export function LoginForm() {
+export function LoginForm({ githubEnabled }: { githubEnabled: boolean }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { status } = useSession();
@@ -185,6 +185,8 @@ export function LoginForm() {
         </button>
       </form>
 
+      {githubEnabled && (
+        <>
       <div className="flex items-center gap-3 text-[13px] font-semibold text-muted" aria-hidden="true">
         <span className="h-px flex-1 bg-line" />
         hoặc
@@ -210,6 +212,8 @@ export function LoginForm() {
           </span>
         )}
       </div>
+        </>
+      )}
 
       <Link href="/deadlines" className="self-start py-2 font-semibold">
         ← Xem deadline không cần đăng nhập

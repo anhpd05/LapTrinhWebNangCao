@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Suspense } from 'react';
 import { LoginForm } from '@/components/auth/login-form';
 import { Logo } from '@/components/ui/logo';
+import { GITHUB_LOGIN_ENABLED } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'Đăng nhập',
@@ -40,7 +41,7 @@ export default function LoginPage() {
 
       <main id="main" className="flex flex-1 basis-[460px] items-center justify-center px-6 py-10">
         <Suspense fallback={<div aria-hidden="true" className="h-[480px] w-full max-w-[420px]" />}>
-          <LoginForm />
+          <LoginForm githubEnabled={GITHUB_LOGIN_ENABLED} />
         </Suspense>
       </main>
     </div>
