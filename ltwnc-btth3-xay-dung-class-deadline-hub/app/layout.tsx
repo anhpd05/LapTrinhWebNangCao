@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Be_Vietnam_Pro } from "next/font/google";
+import { Providers } from "@/components/providers";
 import "./globals.css";
 
 const beVietnamPro = Be_Vietnam_Pro({
@@ -22,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="vi">
       <body className={`${beVietnamPro.className} ${beVietnamPro.variable} antialiased`}>
-        {children}
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
