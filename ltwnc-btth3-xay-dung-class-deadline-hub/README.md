@@ -10,7 +10,7 @@
 | Thành phần | Công nghệ |
 |---|---|
 | Framework | Next.js 15.5 (App Router, React 19), TypeScript |
-| Xác thực | Auth.js v5 (`next-auth` v5 beta, Credentials + GitHub OAuth, session JWT) + `bcryptjs` |
+| Xác thực | Auth.js v5 (`next-auth` v5 beta, Credentials + GitHub OAuth khi có cấu hình, session JWT) + `bcryptjs` |
 | Giao diện | Tailwind CSS v4 (token khai báo bằng `@theme` trong `app/globals.css`) |
 | Kiểm tra dữ liệu | `zod` v4 |
 | Font | `next/font/google`: Be Vietnam Pro, Bricolage Grotesque, JetBrains Mono (cả 3 đều bật subset `vietnamese`) |
@@ -144,6 +144,8 @@ Kết quả `npm run build` (văn bản đầy đủ: [docs/build-output.txt](do
 - **Kiểu JWT**: `next-auth/jwt` chỉ `export *` từ `@auth/core/jwt`, nên khai báo mở rộng kiểu `JWT` phải viết `declare module '@auth/core/jwt'` (xem `types/next-auth.d.ts`), và `@auth/core` được ghim đúng `0.41.3` trong `package.json` để module được augment khớp với bản mà `next-auth` đang dùng.
 - **`ts-node` trong `devDependencies`**: Jest cần nó để đọc file cấu hình `jest.config.ts`.
 - **Google Fonts subset `vietnamese`**: cả 3 font đều khai báo `subsets: ["vietnamese", "latin", "latin-ext"]` trong `app/layout.tsx` để hiển thị đủ dấu tiếng Việt (các chữ ă/đ/ơ/ư nằm ở cả range `vietnamese` lẫn `latin-ext`). Bricolage Grotesque và JetBrains Mono là font biến thiên, nên không khai báo `weight` dạng danh sách (tránh lỗi build Turbopack với URL font dạng `?kit=`).
+- **`revalidatePath` với route group**: khi truyền `type` (`'page'`/`'layout'`), tham số là **đường dẫn file route, gồm cả route group**. Next gắn tag cache cho trang chi tiết là `/(public)/deadlines/[id]/page`, nên `lib/actions.ts` gọi `revalidatePath('/(public)/deadlines/[id]', 'page')` (mọi trang chi tiết) cùng `revalidatePath('/deadlines/<id>')` (đúng trang bị thêm/xoá). Bản trước viết `revalidatePath('/deadlines/[id]', 'layout')`, thiếu `(public)`, nên không khớp tag nào: trên production, xoá #13 xong `/deadlines/13` vẫn trả bài cũ (`x-nextjs-cache: HIT`). Đã sửa và đo lại (xem câu hỏi (1)).
+- **`AUTH_URL` sau reverse proxy**: trên Hostinger, Next nhận host `0.0.0.0:3000` nên Auth.js dựng sai URL tuyệt đối (Đăng xuất chuyển tới `https://0.0.0.0:3000/`). `auth.ts` gán `AUTH_URL = SITE_URL` khi chưa khai báo `AUTH_URL`; next-auth đọc biến này ở mỗi request.
 
 ## Danh sách file `'use client'` và lý do
 
@@ -232,7 +234,9 @@ Ma trận quyền nằm ở **một nơi duy nhất**, `lib/permissions.ts`; mid
 
 ### Đăng nhập bằng GitHub
 
+- **Chỉ bật khi có cấu hình:** provider GitHub và nút "Tiếp tục với GitHub" chỉ xuất hiện khi server có đủ `AUTH_GITHUB_ID` và `AUTH_GITHUB_SECRET` (`GITHUB_LOGIN_ENABLED` trong `lib/site.ts`). Thiếu key thì trang `/login` chỉ có form email/mật khẩu, không hiện một nút bấm vào là lỗi. `/login` là trang tĩnh nên giá trị được chốt lúc build: thêm key thì phải build lại.
 - **Cấu hình:** tạo GitHub OAuth App với *Authorization callback URL* là `<SITE_URL>/api/auth/callback/github` (local: `http://localhost:3000/api/auth/callback/github`; production: `https://deadline.anhpddev.com/api/auth/callback/github`). Mỗi OAuth App chỉ có một callback URL nên local và production dùng hai app riêng. Điền `AUTH_GITHUB_ID`, `AUTH_GITHUB_SECRET`; Auth.js tự đọc.
+- **Trạng thái production:** đã bật. `AUTH_GITHUB_ID`/`AUTH_GITHUB_SECRET` của OAuth App production được đặt trong env Hostinger, rồi build lại; trang `/login` hiện nút, bấm vào chuyển sang `github.com/login` với `redirect_uri=https://deadline.anhpddev.com/api/auth/callback/github` (đã kiểm ngày 2026-11-03).
 - **Quyền theo email:** `auth.ts` lấy email **primary đã xác minh** của tài khoản GitHub (gọi `/user/emails`, bỏ qua email chưa xác minh). Email trùng một tài khoản trong `data/users.json` thì dùng luôn tài khoản đó (cùng `id`, vai trò, mã SV, tiến độ). Không trùng thì là `user` (sinh viên) với `id` cố định `gh-<githubId>`, không có mã SV. Không ai tự nâng lên `admin` qua GitHub được.
 - **Vì sao ghép trong callback `jwt` chứ không trong `profile()`:** Auth.js gán `user.id = crypto.randomUUID()` cho user OAuth ở mỗi lần đăng nhập, nên `id` phải lấy từ `account.providerAccountId` (id GitHub) trong callback `jwt` của `auth.ts`. Callback này chạy ở Node (đọc được `users.json`); middleware vẫn chỉ dùng `auth.config.ts` (Edge-safe).
 - **Lỗi:** huỷ trên GitHub hoặc OAuth lỗi thì Auth.js đưa về `/login?error=…`, form hiện thông báo tiếng Việt dưới nút GitHub.
@@ -284,7 +288,7 @@ Ma trận quyền nằm ở **một nơi duy nhất**, `lib/permissions.ts`; mid
 | Nộp | README: cách chạy, ảnh build + lý do, Lighthouse, ảnh view-source, 2 câu hỏi | Đạt | Các mục trong file này |
 | Điểm cộng | Test Jest cho `can()` | Đạt | [Kiểm thử](#kiểm-thử-điểm-cộng) |
 | Điểm cộng | Deploy | Làm trên Hostinger thay vì Vercel (lý do ở [Deploy](#deploy-hostinger)) | https://deadline.anhpddev.com |
-| Điểm cộng | Đăng nhập GitHub (OAuth) | Đạt | [Đăng nhập bằng GitHub](#đăng-nhập-bằng-github), `auth.ts` |
+| Điểm cộng | Đăng nhập GitHub (OAuth) | Đạt (local và production) | [Đăng nhập bằng GitHub](#đăng-nhập-bằng-github), `auth.ts`, `__tests__/github-identity.test.ts` |
 
 ## Câu hỏi bắt buộc
 
@@ -293,7 +297,8 @@ Ma trận quyền nằm ở **một nơi duy nhất**, `lib/permissions.ts`; mid
 - Đây là trang **công khai**, nên cần HTML tĩnh dựng sẵn cho SEO (`<title>`, `og:image`, JSON-LD), ảnh OG và tốc độ: phục vụ từ cache, không đọc file JSON ở mỗi request.
 - Dữ liệu chỉ đổi khi admin thêm/xoá. `revalidatePath` làm mới đúng trang cần làm mới, đúng lúc cần: không phải SSR ở mỗi request, và cũng không phải chờ build lại như SSG thuần.
 - `dynamicParams = true` cho phép id mới tạo sau khi build vẫn có trang (xem được ngay sau khi thêm). Id chưa từng tồn tại (ví dụ `/deadlines/999`) trả **HTTP 404** thật (`notFound()`).
-- **Hạn chế đã đo trên bản thật (Next 15.5.28):** id đã được dựng sẵn rồi bị admin xoá (ví dụ #12, #13) hiển thị đúng trang "Mốc này không có trên dòng thời gian." ngay sau khi xoá, nhưng mã HTTP vẫn là **200** (soft 404) vì mã trạng thái ban đầu của trang được cache không đổi theo lần dựng lại. Nội dung đúng, chỉ mã trạng thái chưa đúng; chưa có cách sửa nào được kiểm chứng.
+- **Đo trên production (2026-11-03, sau khi sửa `revalidatePath`):** admin thêm deadline → `/deadlines/13` xem được ngay (`x-nextjs-cache: MISS`, dựng lần đầu), đồng thời `/`, `/subjects/co-so-du-lieu`, `/sitemap.xml` và trang chi tiết cùng môn `/deadlines/6` đều có bài mới. Admin xoá → ngay lần tải đầu `/deadlines/13` trả **HTTP 404** thật (trang 404 của dự án), các trang kia đều đã bỏ bài. Trước khi sửa, trang vẫn trả bài cũ với `x-nextjs-cache: HIT` (xem [Ghi chú kỹ thuật](#ghi-chú-kỹ-thuật)).
+- **Hạn chế còn lại:** với id được dựng sẵn lúc build (1–12) rồi bị xoá, lần đo trước đợt sửa cho thấy nội dung đúng nhưng mã HTTP là 200 (soft 404). Chưa đo lại trường hợp này trên production sau khi sửa vì phải xoá dữ liệu thật.
 - `revalidate = 3600` là lưới an toàn nếu có thao tác nào sót.
 - Đối chiếu: `/deadlines` (danh sách) chỉ làm mới theo chu kỳ 60 giây vì chấp nhận trễ; `/deadlines/[id]` cần đúng ngay sau khi admin thao tác nên dùng ISR on-demand.
 
@@ -311,7 +316,7 @@ Ma trận quyền nằm ở **một nơi duy nhất**, `lib/permissions.ts`; mid
 npm test
 ```
 
-Jest gồm **3 suite, 44 test**: `__tests__/permissions.test.ts` (ma trận `can()` theo từng cặp role + action, và `roleOf()`), `__tests__/countdown.test.ts` (hàm thời gian thuần: ranh giới 72 giờ của `statusOf`, `chipText` theo ngày lịch giờ VN, `weekBucket` với tuần bắt đầu thứ Hai, `clockParts`), `__tests__/safe-callback.test.ts` (chống open-redirect cho `callbackUrl`). Môi trường test là `node`, cấu hình ở `jest.config.ts` (qua `next/jest`).
+Jest gồm **4 suite, 52 test**: `__tests__/permissions.test.ts` (ma trận `can()` theo từng cặp role + action, và `roleOf()`), `__tests__/countdown.test.ts` (hàm thời gian thuần: ranh giới 72 giờ của `statusOf`, `chipText` theo ngày lịch giờ VN, `weekBucket` với tuần bắt đầu thứ Hai, `clockParts`), `__tests__/safe-callback.test.ts` (chống open-redirect cho `callbackUrl`), `__tests__/github-identity.test.ts` (ghép tài khoản GitHub với `users.json` theo email đã xác minh, không tự nâng quyền admin). Môi trường test là `node`, cấu hình ở `jest.config.ts` (qua `next/jest`).
 
 ## Điểm Lighthouse
 
@@ -335,7 +340,8 @@ Ghi chú trung thực: Performance dưới 90 vì LCP khoảng 4.9 s trong đi�
   | `AUTH_SECRET` | Khoá ký JWT của Auth.js (chuỗi ngẫu nhiên riêng cho server, không dùng lại secret ở máy local) |
   | `AUTH_TRUST_HOST` | Cho Auth.js tin host khi chạy sau reverse proxy (thiếu thì lỗi `UntrustedHost`) |
   | `SITE_URL` | Gốc URL tuyệt đối (https) cho metadata, sitemap, robots, JSON-LD, `og:image` |
-  | `AUTH_GITHUB_ID`, `AUTH_GITHUB_SECRET` | GitHub OAuth App **của production** (callback `https://deadline.anhpddev.com/api/auth/callback/github`) |
+  | `AUTH_GITHUB_ID`, `AUTH_GITHUB_SECRET` | GitHub OAuth App **của production**, callback `https://deadline.anhpddev.com/api/auth/callback/github`. Thiếu thì nút GitHub tự ẩn |
+  | `AUTH_URL` | Không cần đặt: `auth.ts` lấy theo `SITE_URL` (xem Ghi chú kỹ thuật) |
   | `DATA_DIR` | Thư mục chứa dữ liệu ghi được lúc chạy (xem bên dưới) |
   | `NODE_ENV` | `production` |
 
