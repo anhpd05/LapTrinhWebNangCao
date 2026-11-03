@@ -10,14 +10,14 @@
 | Thành phần | Công nghệ |
 |---|---|
 | Framework | Next.js 15.5 (App Router, React 19), TypeScript |
-| Xác thực | Auth.js v5 (`next-auth` v5 beta, Credentials provider, session JWT) + `bcryptjs` |
+| Xác thực | Auth.js v5 (`next-auth` v5 beta, Credentials + GitHub OAuth, session JWT) + `bcryptjs` |
 | Giao diện | Tailwind CSS v4 (token khai báo bằng `@theme` trong `app/globals.css`) |
 | Kiểm tra dữ liệu | `zod` v4 |
 | Font | `next/font/google`: Be Vietnam Pro, Bricolage Grotesque, JetBrains Mono (cả 3 đều bật subset `vietnamese`) |
 | Kiểm thử | Jest (qua `next/jest`) |
 | Dữ liệu | `data/*.json`, chỉ được đọc/ghi trong `lib/data.ts` |
 
-**Giao diện dựa trên prototype** do người dùng cung cấp (file HTML tự giải nén gồm 8 màn hình). Prototype được dùng làm chuẩn về hình ảnh, bố cục, màu, chữ và ngôn từ; còn kiến trúc (SSG/ISR/SSR, Server Component mặc định, `can()`, Server Action) làm theo yêu cầu của đề, không theo prototype (prototype chỉ là một component với state trong bộ nhớ). Thanh công cụ "PROTOTYPE" và nút "Tiếp tục với GitHub" đã bỏ vì không thuộc phạm vi.
+**Giao diện dựa trên prototype** do người dùng cung cấp (file HTML tự giải nén gồm 8 màn hình). Prototype được dùng làm chuẩn về hình ảnh, bố cục, màu, chữ và ngôn từ; còn kiến trúc (SSG/ISR/SSR, Server Component mặc định, `can()`, Server Action) làm theo yêu cầu của đề, không theo prototype (prototype chỉ là một component với state trong bộ nhớ). Thanh công cụ "PROTOTYPE" đã bỏ vì không thuộc phạm vi; nút "Tiếp tục với GitHub" là đăng nhập GitHub OAuth thật (xem [Đăng nhập bằng GitHub](#đăng-nhập-bằng-github)).
 
 ### Các cải thiện so với prototype (đã làm)
 
@@ -54,7 +54,7 @@ node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
 
 > Không dùng `npx auth secret`: lệnh này chạy nhầm sang một CLI khác nên không sinh được secret cho dự án.
 
-Các biến trong `.env.example`: `AUTH_SECRET`, `AUTH_TRUST_HOST`, `SITE_URL` (mặc định `http://localhost:3000`), `DATA_DIR` (để trống thì dùng `./data`).
+Các biến trong `.env.example`: `AUTH_SECRET`, `AUTH_TRUST_HOST`, `AUTH_GITHUB_ID` + `AUTH_GITHUB_SECRET` (GitHub OAuth App, xem [Đăng nhập bằng GitHub](#đăng-nhập-bằng-github)), `SITE_URL` (mặc định `http://localhost:3000`), `DATA_DIR` (để trống thì dùng `./data`).
 
 ```bash
 npm run dev                 # chế độ phát triển (Turbopack)  -> http://localhost:3000
@@ -221,6 +221,13 @@ Ma trận quyền nằm ở **một nơi duy nhất**, `lib/permissions.ts`; mid
 | `deadline:create` (Thêm deadline) | ✗ | ✗ | ✓ |
 | `deadline:delete` (Xoá deadline) | ✗ | ✗ | ✓ |
 
+### Đăng nhập bằng GitHub
+
+- **Cấu hình:** tạo GitHub OAuth App với *Authorization callback URL* là `<SITE_URL>/api/auth/callback/github` (local: `http://localhost:3000/api/auth/callback/github`; production: `https://deadline.anhpddev.com/api/auth/callback/github`). Mỗi OAuth App chỉ có một callback URL nên local và production dùng hai app riêng. Điền `AUTH_GITHUB_ID`, `AUTH_GITHUB_SECRET`; Auth.js tự đọc.
+- **Quyền theo email:** `auth.ts` lấy email **primary đã xác minh** của tài khoản GitHub (gọi `/user/emails`, bỏ qua email chưa xác minh). Email trùng một tài khoản trong `data/users.json` thì dùng luôn tài khoản đó (cùng `id`, vai trò, mã SV, tiến độ). Không trùng thì là `user` (sinh viên) với `id` cố định `gh-<githubId>`, không có mã SV. Không ai tự nâng lên `admin` qua GitHub được.
+- **Vì sao ghép trong callback `jwt` chứ không trong `profile()`:** Auth.js gán `user.id = crypto.randomUUID()` cho user OAuth ở mỗi lần đăng nhập, nên `id` phải lấy từ `account.providerAccountId` (id GitHub) trong callback `jwt` của `auth.ts` (logic nằm ở hàm thuần `githubIdentity()` trong `lib/github-identity.ts`, có test). Callback này chạy ở Node (đọc được `users.json`); middleware vẫn chỉ dùng `auth.config.ts` (Edge-safe).
+- **Lỗi:** huỷ trên GitHub hoặc OAuth lỗi thì Auth.js đưa về `/login?error=…`, form hiện thông báo tiếng Việt dưới nút GitHub.
+
 ### Ba lớp kiểm tra (defense in depth)
 
 | Lớp | Nơi kiểm tra | Hành vi |
@@ -280,6 +287,7 @@ Ghi chú trung thực: Performance dưới 90 vì LCP khoảng 4.9 s trong đi�
   | `AUTH_SECRET` | Khoá ký JWT của Auth.js (chuỗi ngẫu nhiên riêng cho server, không dùng lại secret ở máy local) |
   | `AUTH_TRUST_HOST` | Cho Auth.js tin host khi chạy sau reverse proxy (thiếu thì lỗi `UntrustedHost`) |
   | `SITE_URL` | Gốc URL tuyệt đối (https) cho metadata, sitemap, robots, JSON-LD, `og:image` |
+  | `AUTH_GITHUB_ID`, `AUTH_GITHUB_SECRET` | GitHub OAuth App **của production** (callback `https://deadline.anhpddev.com/api/auth/callback/github`) |
   | `DATA_DIR` | Thư mục chứa dữ liệu ghi được lúc chạy (xem bên dưới) |
   | `NODE_ENV` | `production` |
 

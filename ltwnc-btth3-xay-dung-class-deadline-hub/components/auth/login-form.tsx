@@ -14,6 +14,14 @@ const DEMO_ACCOUNTS = [
 
 const FIELD = 'min-h-[50px] rounded-card border border-[#c4c9d2] bg-card px-4 text-base';
 
+// Lỗi OAuth: Auth.js chuyển về /login?error=<Type> (pages.signIn). GitHub báo "access_denied"
+// khi người dùng bấm huỷ, Auth.js gói lại thành OAuthCallbackError.
+const OAUTH_ERRORS: Record<string, string> = {
+  OAuthCallbackError: 'Đăng nhập GitHub đã bị huỷ hoặc không hoàn tất. Thử lại nhé.',
+  AccessDenied: 'Tài khoản GitHub này không được phép đăng nhập.',
+};
+const OAUTH_ERROR_FALLBACK = 'Không đăng nhập được bằng GitHub. Thử lại sau.';
+
 export function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -23,12 +31,15 @@ export function LoginForm() {
   const callbackUrl = safeCallback(rawCallback);
   // Chỉ hiện thông báo khi callbackUrl hợp lệ (không bị safeCallback thay bằng mặc định).
   const hasCallback = rawCallback !== null && callbackUrl === rawCallback;
+  const rawOAuthError = searchParams.get('error');
+  const oauthError = rawOAuthError ? (OAUTH_ERRORS[rawOAuthError] ?? OAUTH_ERROR_FALLBACK) : null;
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
+  const [githubPending, setGithubPending] = useState(false);
 
   // Đã đăng nhập mà vào /login thì chuyển thẳng tới nơi cần đến.
   useEffect(() => {
@@ -50,6 +61,12 @@ export function LoginForm() {
     // Tải lại toàn trang (không chuyển trang kiểu client) để SessionProvider
     // đọc lại session mới, nếu không header vẫn hiện "Đăng nhập".
     window.location.assign(callbackUrl);
+  }
+
+  function onGithub() {
+    setGithubPending(true);
+    // OAuth là chuyển trang thật (sang github.com rồi quay về), nên session mới được đọc lại sau khi về.
+    void signIn('github', { redirectTo: callbackUrl });
   }
 
   return (
@@ -167,6 +184,32 @@ export function LoginForm() {
           <span aria-hidden="true">→</span>
         </button>
       </form>
+
+      <div className="flex items-center gap-3 text-[13px] font-semibold text-muted" aria-hidden="true">
+        <span className="h-px flex-1 bg-line" />
+        hoặc
+        <span className="h-px flex-1 bg-line" />
+      </div>
+
+      <div className="flex flex-col gap-1.5">
+        <button
+          type="button"
+          onClick={onGithub}
+          disabled={githubPending}
+          aria-describedby={oauthError ? 'oauth-error' : undefined}
+          className="flex min-h-[54px] cursor-pointer items-center justify-center gap-3 rounded-card bg-ink px-5 text-base font-bold text-[#f4f5f7] disabled:opacity-60"
+        >
+          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
+          </svg>
+          {githubPending ? 'Đang chuyển sang GitHub…' : 'Tiếp tục với GitHub'}
+        </button>
+        {oauthError && (
+          <span id="oauth-error" role="alert" className="text-[13px] font-semibold text-late">
+            {oauthError}
+          </span>
+        )}
+      </div>
 
       <Link href="/deadlines" className="self-start py-2 font-semibold">
         ← Xem deadline không cần đăng nhập
