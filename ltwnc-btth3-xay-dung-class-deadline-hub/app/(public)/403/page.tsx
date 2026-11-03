@@ -15,7 +15,7 @@ export default function ForbiddenPage() {
   return (
     <DarkBand>
       <PublicHeader />
-      <div className="mx-auto flex max-w-[1280px] flex-wrap items-center gap-10 px-6 pb-[72px] pt-14">
+      <main className="mx-auto flex max-w-[1280px] flex-wrap items-center gap-10 px-6 pb-[72px] pt-14">
         <div className="flex flex-[999_1_460px] flex-col gap-4">
           <span className="self-start rounded-pill bg-[#2a2210] px-3 py-1.5 font-mono text-[13px] font-bold tracking-[0.08em] text-[#ffc266]">
             403 · KHU VỰC LỚP TRƯỞNG
@@ -37,7 +37,7 @@ export default function ForbiddenPage() {
           </div>
         </div>
         <PermissionTable />
-      </div>
+      </main>
     </DarkBand>
   );
 }

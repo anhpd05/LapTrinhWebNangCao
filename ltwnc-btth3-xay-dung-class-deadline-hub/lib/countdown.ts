@@ -45,14 +45,23 @@ export function statusOf(dueAt: string, now: number): DeadlineStatus {
 }
 
 /**
+ * Số ngày lịch (giờ VN) từ hôm nay tới ngày hạn: hạn 23:59 ngày mai là 1, cùng ngày là 0.
+ * Mọi chữ "Còn N ngày" trong app phải dùng hàm này để khớp với chip trạng thái
+ * (khác `daysLeft`, vốn làm tròn lên theo số giờ còn lại).
+ */
+export function calendarDaysLeft(dueAt: string, now: number): number {
+  return vnDayIndex(Date.parse(dueAt)) - vnDayIndex(now);
+}
+
+/**
  * Chữ trên chip trạng thái. "Hạn hôm nay" và "Còn N ngày" đếm theo ngày lịch giờ VN
- * (hạn 23:59 ngày mai là "Còn 1 ngày"), còn "Quá hạn N ngày" đếm theo `daysLeft`.
+ * (`calendarDaysLeft`), còn "Quá hạn N ngày" đếm theo `daysLeft`.
  */
 export function chipText(dueAt: string, now: number, done: boolean): string {
   if (done) return 'Đã xong';
   if (msLeft(dueAt, now) < 0) return `Quá hạn ${-daysLeft(dueAt, now)} ngày`;
-  const calendarDays = vnDayIndex(Date.parse(dueAt)) - vnDayIndex(now);
-  return calendarDays === 0 ? 'Hạn hôm nay' : `Còn ${calendarDays} ngày`;
+  const days = calendarDaysLeft(dueAt, now);
+  return days === 0 ? 'Hạn hôm nay' : `Còn ${days} ngày`;
 }
 
 /** Nhóm theo tuần giờ VN (tuần bắt đầu thứ Hai). Đã quá hạn thì luôn là `late`. */

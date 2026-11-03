@@ -5,6 +5,9 @@ import type { NextAuthConfig } from 'next-auth';
 export const authConfig = {
   pages: { signIn: '/login' },
   session: { strategy: 'jwt' },
+  // Auth.js v5 chỉ tự tin host khi chạy trên Vercel; sau reverse proxy (Hostinger) thiếu
+  // trustHost thì bản production báo UntrustedHost. Đặt cả env AUTH_TRUST_HOST=true cho chắc.
+  trustHost: true,
   providers: [],
   callbacks: {
     jwt({ token, user }) {

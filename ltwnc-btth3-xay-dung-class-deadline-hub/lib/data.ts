@@ -1,5 +1,5 @@
 import 'server-only';
-import { promises as fs } from 'node:fs';
+import { constants as fsConstants, promises as fs } from 'node:fs';
 import path from 'node:path';
 import type {
   Deadline,
@@ -11,18 +11,52 @@ import type {
 } from './types';
 
 /**
- * Module DUY NHẤT được chạm vào hệ thống file. Nếu sau này đổi nơi lưu dữ liệu
- * (DB, Blob...) chỉ cần sửa file này.
+ * Module DUY NHẤT được chạm vào hệ thống file và là nơi DUY NHẤT đọc `DATA_DIR`.
+ * Nếu sau này đổi nơi lưu dữ liệu (DB, Blob...) chỉ cần sửa file này.
  */
 
+const SEED_DIR = path.join(process.cwd(), 'data');
+
+// Trên Hostinger, DATA_DIR trỏ ra NGOÀI thư mục code vì mỗi lần deploy Hostinger ghi đè
+// toàn bộ thư mục website. Để trống thì dùng ./data (dev/local).
+const DATA_DIR = process.env.DATA_DIR || SEED_DIR;
+
+// Mỗi file chỉ được seed một lần mỗi tiến trình; file đã có trong DATA_DIR thì không bao giờ bị ghi đè.
+const seeded = new Map<string, Promise<void>>();
+
+function ensureDataFile(name: string): Promise<void> {
+  let ready = seeded.get(name);
+  if (!ready) {
+    ready = (async () => {
+      const target = path.join(DATA_DIR, name);
+      try {
+        await fs.access(target);
+        return;
+      } catch {
+        // chưa có: chép bản seed sang
+      }
+      await fs.mkdir(DATA_DIR, { recursive: true });
+      // COPYFILE_EXCL: nếu có tiến trình khác vừa tạo xong thì bỏ qua, không ghi đè.
+      await fs.copyFile(path.join(SEED_DIR, name), target, fsConstants.COPYFILE_EXCL).catch((err) => {
+        if (err.code !== 'EEXIST') throw err;
+      });
+    })();
+    // Seed lỗi thì cho phép thử lại ở lần gọi sau.
+    ready.catch(() => seeded.delete(name));
+    seeded.set(name, ready);
+  }
+  return ready;
+}
+
 async function readJson<T>(name: string): Promise<T> {
-  const file = path.join(process.cwd(), 'data', name);
-  return JSON.parse(await fs.readFile(file, 'utf8')) as T;
+  await ensureDataFile(name);
+  return JSON.parse(await fs.readFile(path.join(DATA_DIR, name), 'utf8')) as T;
 }
 
 // Ghi ra file tạm rồi rename: người đọc không bao giờ thấy file ghi dở.
 async function writeJson(name: string, value: unknown): Promise<void> {
-  const target = path.join(process.cwd(), 'data', name);
+  await ensureDataFile(name);
+  const target = path.join(DATA_DIR, name);
   const tmp = `${target}.${process.pid}.${Date.now()}.tmp`;
   await fs.writeFile(tmp, `${JSON.stringify(value, null, 2)}\n`, 'utf8');
   await fs.rename(tmp, target);
