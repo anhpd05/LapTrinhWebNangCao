@@ -15,7 +15,7 @@ function RowSkeleton() {
 
 export default function DeadlinesLoading() {
   return (
-    <main aria-busy="true">
+    <main id="main" aria-busy="true">
       <span className="sr-only">Đang tải danh sách deadline…</span>
       <DarkBand>
         <div className="mx-auto flex max-w-[1280px] flex-wrap items-end justify-between gap-5 px-6 pb-9 pt-[88px]">

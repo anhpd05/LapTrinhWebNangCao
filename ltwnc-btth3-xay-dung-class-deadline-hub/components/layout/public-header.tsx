@@ -9,7 +9,9 @@ export function PublicHeader() {
     <header className="mx-auto flex max-w-[1280px] flex-wrap items-center gap-x-6 gap-y-3 px-6 py-4">
       <Logo />
       <PublicNav />
-      <UserMenu />
+      <div className="ml-auto">
+        <UserMenu />
+      </div>
     </header>
   );
 }

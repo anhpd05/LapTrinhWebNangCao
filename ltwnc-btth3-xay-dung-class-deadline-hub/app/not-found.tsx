@@ -19,7 +19,7 @@ export default function NotFound() {
       >
         404
       </span>
-      <main className="relative mx-auto flex min-h-[70vh] max-w-[1280px] flex-col gap-4 px-6 pb-[72px] pt-[120px]">
+      <main id="main" className="relative mx-auto flex min-h-[70vh] max-w-[1280px] flex-col gap-4 px-6 pb-[72px] pt-[120px]">
         <CurrentPath />
         <h1 className="max-w-[620px] font-display text-[clamp(40px,8vw,60px)] font-extrabold leading-[0.98] tracking-[-0.035em]">
           Mốc này không có trên dòng thời gian.

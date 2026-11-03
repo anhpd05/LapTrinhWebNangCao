@@ -48,7 +48,14 @@ function ensureDataFile(name: string): Promise<void> {
   return ready;
 }
 
+// Dữ liệu tham chiếu (môn học, tài khoản): runtime không bao giờ ghi, nên đọc thẳng từ thư mục
+// code. Mỗi lần deploy chúng được cập nhật theo code; không bị "kẹt" bản cũ trong DATA_DIR.
+const REFERENCE_FILES: Record<string, true> = { 'subjects.json': true, 'users.json': true };
+
 async function readJson<T>(name: string): Promise<T> {
+  if (REFERENCE_FILES[name]) {
+    return JSON.parse(await fs.readFile(path.join(SEED_DIR, name), 'utf8')) as T;
+  }
   await ensureDataFile(name);
   return JSON.parse(await fs.readFile(path.join(DATA_DIR, name), 'utf8')) as T;
 }

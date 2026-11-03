@@ -43,6 +43,12 @@ export default function RootLayout({
   return (
     <html lang="vi" className={`${sans.variable} ${display.variable} ${mono.variable}`}>
       <body className="antialiased">
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-[10px] focus:bg-lime focus:px-4 focus:py-3 focus:font-bold focus:text-ink focus:hover:text-ink"
+        >
+          Bỏ qua, đến nội dung chính
+        </a>
         <Providers>{children}</Providers>
       </body>
     </html>

@@ -21,7 +21,12 @@ export default async function AppLayout({ children }: { children: React.ReactNod
 
   const sidebar = (
     <AppSidebarBody
-      user={{ name: session.user.name ?? '', initials: session.user.initials, role: session.user.role }}
+      user={{
+        name: session.user.name ?? '',
+        initials: session.user.initials,
+        studentId: session.user.studentId,
+        role: session.user.role,
+      }}
       openCount={openCount}
       totalCount={deadlines.length}
       showAdmin={can(session.user.role, 'deadline:create')}
@@ -37,7 +42,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
         {sidebar}
       </aside>
       <AppTopBar logo={<Logo />}>{sidebar}</AppTopBar>
-      <main className="flex min-w-0 flex-1 flex-col gap-[22px] p-5 sm:p-8">{children}</main>
+      <main id="main" className="flex min-w-0 flex-1 flex-col gap-[22px] p-5 sm:p-8">{children}</main>
     </div>
   );
 }

@@ -36,7 +36,7 @@ export function PublicNav() {
   return (
     <nav
       aria-label="Điều hướng chính"
-      className="flex min-w-0 flex-1 gap-0.5 overflow-x-auto whitespace-nowrap"
+      className="-m-1.5 flex min-w-0 gap-0.5 overflow-x-auto whitespace-nowrap p-1.5 max-sm:order-3 max-sm:basis-full sm:flex-1"
     >
       {items.map((item) => {
         const current = item.isCurrent(pathname);

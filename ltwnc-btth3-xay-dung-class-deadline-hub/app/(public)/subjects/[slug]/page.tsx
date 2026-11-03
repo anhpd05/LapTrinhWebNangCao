@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { DarkBand } from '@/components/layout/dark-band';
-import { PublicHeader } from '@/components/layout/public-header';
+import { HeaderBand } from '@/components/layout/header-band';
 import { SubjectDeadlineCards } from '@/components/time/subject-deadline-cards';
 import { SubjectStats } from '@/components/time/subject-stats';
 import { getDeadlinesBySubject, getSubjectBySlug, getSubjects } from '@/lib/data';
@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const subject = await getSubjectBySlug(slug);
   if (!subject) return {};
-  return { title: subject.name, description: subject.desc };
+  return { title: subject.name, description: subject.desc, alternates: { canonical: `/subjects/${subject.slug}` } };
 }
 
 export default async function SubjectPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -35,8 +35,9 @@ export default async function SubjectPage({ params }: { params: Promise<{ slug: 
 
   return (
     <>
+      <HeaderBand />
+      <main id="main">
       <DarkBand>
-        <PublicHeader />
         <span
           aria-hidden="true"
           className="pointer-events-none absolute -bottom-10 -right-6 select-none font-display text-[160px] font-extrabold leading-none tracking-[-0.06em] text-transparent opacity-55 md:-bottom-[70px] md:-right-10 md:text-[340px]"
@@ -87,7 +88,7 @@ export default async function SubjectPage({ params }: { params: Promise<{ slug: 
         </div>
       </DarkBand>
 
-      <main className="mx-auto flex max-w-[1280px] flex-col gap-[18px] px-6 pb-[72px] pt-9">
+      <div className="mx-auto flex max-w-[1280px] flex-col gap-[18px] px-6 pb-[72px] pt-9">
         <h2 className="font-display text-[30px] font-extrabold tracking-[-0.02em]">Deadline của môn</h2>
         {sorted.length === 0 ? (
           <p className="text-base text-muted">Môn này hiện chưa có deadline.</p>
@@ -97,6 +98,7 @@ export default async function SubjectPage({ params }: { params: Promise<{ slug: 
             renderedAt={renderedAt}
           />
         )}
+      </div>
       </main>
     </>
   );

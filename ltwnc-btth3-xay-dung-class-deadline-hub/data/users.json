@@ -2,17 +2,19 @@
   {
     "id": "u-admin",
     "email": "admin@ptit.edu.vn",
-    "name": "Lê Thu Hà",
-    "initials": "TH",
+    "name": "Phạm Đức Anh",
+    "initials": "PA",
     "passwordHash": "$2b$10$WZc3JlHGNgpXJejUnaNpletk12zOO7wsDPyLsQq.KxYde4no0N90.",
-    "role": "admin"
+    "role": "admin",
+    "studentId": "B23DCCC014"
   },
   {
     "id": "u-sv",
     "email": "sv@ptit.edu.vn",
-    "name": "Nguyễn Văn An",
-    "initials": "NA",
+    "name": "Nguyễn Mai Sao",
+    "initials": "NS",
     "passwordHash": "$2b$10$/84aHcg740xkIQlxHeJzDO0UcpF4Sg.Bzg67bulwzokNQ1nnbo//C",
-    "role": "user"
+    "role": "user",
+    "studentId": "B23DCCC027"
   }
 ]

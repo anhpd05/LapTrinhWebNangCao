@@ -128,7 +128,7 @@ export function DeadlineExplorer({ deadlines, subjects, renderedAt }: DeadlineEx
         aria-label="Bộ lọc"
         className="flex min-w-0 flex-[1_1_260px] flex-col gap-[22px] rounded-panel border border-line bg-card p-5"
       >
-        <label className="flex min-h-[46px] items-center gap-2.5 rounded-field border border-[#D5D9E0] bg-[#F6F7F9] px-3.5">
+        <label className="flex min-h-[46px] items-center gap-2.5 rounded-field border border-[#D5D9E0] bg-[#F6F7F9] px-3.5 has-[input:focus-visible]:outline-3 has-[input:focus-visible]:outline-offset-2 has-[input:focus-visible]:outline-link">
           <svg
             width="18"
             height="18"
@@ -152,7 +152,7 @@ export function DeadlineExplorer({ deadlines, subjects, renderedAt }: DeadlineEx
           />
         </label>
 
-        <div className="flex flex-col gap-1.5">
+        <div role="group" aria-label="Lọc theo môn học" className="flex flex-col gap-1.5">
           <span className="font-mono text-xs font-bold tracking-[0.08em] text-muted">MÔN HỌC</span>
           <SubjectButton
             label="Tất cả môn"
@@ -175,7 +175,7 @@ export function DeadlineExplorer({ deadlines, subjects, renderedAt }: DeadlineEx
 
         <div className="flex flex-col gap-2">
           <span className="font-mono text-xs font-bold tracking-[0.08em] text-muted">TRẠNG THÁI</span>
-          <div className="flex flex-wrap gap-1.5">
+          <div role="group" aria-label="Lọc theo trạng thái" className="flex flex-wrap gap-1.5">
             {STATUS_OPTIONS.map((o) => {
               const on = status === o.value;
               return (
@@ -184,7 +184,7 @@ export function DeadlineExplorer({ deadlines, subjects, renderedAt }: DeadlineEx
                   type="button"
                   aria-pressed={on}
                   onClick={() => setStatus(o.value)}
-                  className={`min-h-10 rounded-pill border px-3.5 text-sm font-semibold ${
+                  className={`min-h-11 rounded-pill border px-3.5 text-sm font-semibold ${
                     on ? 'border-ink bg-lime text-ink' : 'border-[#D5D9E0] bg-card text-ok'
                   }`}
                 >

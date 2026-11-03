@@ -74,12 +74,13 @@ function Box({
     <button
       type="button"
       aria-pressed={done}
-      aria-label={done ? `Bỏ đánh dấu: ${title}` : `Đánh dấu đã xong: ${title}`}
+      aria-label={`Đánh dấu đã xong: ${title}`}
       aria-disabled={busy || undefined}
       onClick={() => {
         if (!busy) onClick();
       }}
-      className={`flex size-7 flex-none cursor-pointer items-center justify-center rounded-lg border-2 p-0 aria-disabled:cursor-wait ${
+      // Ô nhìn thấy 28px; ::after nới vùng bấm lên 44px mà không đổi giao diện.
+      className={`relative flex size-7 flex-none cursor-pointer items-center justify-center rounded-lg border-2 p-0 after:absolute after:-inset-2 after:content-[''] aria-disabled:cursor-wait ${
         done ? 'border-ink bg-lime' : 'border-[#9AA3B2] bg-white'
       }`}
     >

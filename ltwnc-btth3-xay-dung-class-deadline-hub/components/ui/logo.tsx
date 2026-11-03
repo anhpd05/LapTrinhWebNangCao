@@ -4,7 +4,7 @@ export function Logo() {
   return (
     <Link
       href="/"
-      className="flex items-center gap-2.5 font-display text-xl font-extrabold text-[#f4f5f7] hover:text-[#f4f5f7]"
+      className="flex min-h-11 items-center gap-2.5 font-display text-xl font-extrabold text-[#f4f5f7] hover:text-[#f4f5f7]"
     >
       <span className="flex size-[34px] items-center justify-center rounded-[10px] bg-lime">
         <svg

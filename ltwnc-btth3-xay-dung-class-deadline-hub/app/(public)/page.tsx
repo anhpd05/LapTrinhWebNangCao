@@ -1,12 +1,15 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { HomeCta } from '@/components/home-cta';
 import { SubjectCard } from '@/components/deadline/subject-card';
 import { Timeline } from '@/components/deadline/timeline';
 import { DarkBand } from '@/components/layout/dark-band';
-import { PublicHeader } from '@/components/layout/public-header';
+import { HeaderBand } from '@/components/layout/header-band';
 import { NearestDeadline } from '@/components/time/nearest-deadline';
 import { TodayLabel } from '@/components/time/today-label';
 import { getDeadlines, getSubjects } from '@/lib/data';
+
+export const metadata: Metadata = { alternates: { canonical: '/' } };
 
 // SSG thuần: không export `revalidate`. Server Action ở phase 4 gọi revalidatePath('/')
 // khi lớp trưởng thêm/xoá deadline. Mọi UI phụ thuộc giờ là client island nhận `renderedAt`.
@@ -18,9 +21,9 @@ export default async function HomePage() {
 
   return (
     <>
-      <DarkBand>
-        <PublicHeader />
-        <main>
+      <HeaderBand />
+      <main id="main">
+        <DarkBand>
           <div className="relative mx-auto flex max-w-[1280px] flex-wrap items-end gap-9 px-6 pt-8">
             <div className="flex min-w-0 flex-[999_1_540px] flex-col gap-5">
               <TodayLabel renderedAt={renderedAt} />
@@ -38,8 +41,8 @@ export default async function HomePage() {
             <NearestDeadline deadlines={slim} subjects={subjects} renderedAt={renderedAt} />
           </div>
           <Timeline deadlines={deadlines} subjects={subjects} renderedAt={renderedAt} />
-        </main>
-      </DarkBand>
+        </DarkBand>
+
 
       <div className="mx-auto flex max-w-[1280px] flex-col gap-10 px-6 pb-[72px] pt-12">
         <section aria-labelledby="by-subject-heading" className="flex flex-col gap-[18px]">
@@ -78,6 +81,7 @@ export default async function HomePage() {
           <HomeCta />
         </section>
       </div>
+      </main>
     </>
   );
 }

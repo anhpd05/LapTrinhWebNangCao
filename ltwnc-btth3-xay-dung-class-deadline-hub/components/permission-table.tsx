@@ -35,7 +35,7 @@ export function PermissionTable() {
                   return (
                     <td
                       key={role}
-                      className={`px-1.5 py-3 text-center font-bold ${allowed ? 'text-lime' : 'text-[#6b7280]'}`}
+                      className={`px-1.5 py-3 text-center font-bold ${allowed ? 'text-lime' : 'text-[#8f98a8]'}`}
                     >
                       <span aria-hidden="true">{allowed ? '✓' : '✗'}</span>
                       <span className="sr-only">{allowed ? 'Được phép' : 'Không được phép'}</span>

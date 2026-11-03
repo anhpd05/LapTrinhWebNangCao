@@ -36,6 +36,8 @@ export interface UserRecord {
   email: string;
   name: string;
   initials: string;
+  /** Mã sinh viên, hiển thị ở thẻ người dùng */
+  studentId: string;
   passwordHash: string;
   role: Role;
 }

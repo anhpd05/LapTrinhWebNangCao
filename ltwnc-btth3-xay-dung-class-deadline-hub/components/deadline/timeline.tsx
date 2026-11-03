@@ -15,7 +15,7 @@ interface TimelineProps {
 // Mốc quá hạn do TimelineNow bật bằng data-late (client, theo giờ thật); server cũng gán sẵn
 // theo `renderedAt` nên HTML tĩnh không bị nháy.
 const PIN_CLASS =
-  'absolute top-1/2 z-10 inline-flex h-8 -translate-x-1/2 -translate-y-1/2 items-center whitespace-nowrap rounded-pill border-[1.5px] border-solid border-(--pin) bg-(--pin) px-3 font-mono text-xs font-bold text-ink hover:text-ink ' +
+  'absolute top-1/2 z-10 inline-flex h-11 -translate-x-1/2 -translate-y-1/2 items-center whitespace-nowrap rounded-pill border-[1.5px] border-solid border-(--pin) bg-(--pin) px-3 font-mono text-xs font-bold text-ink hover:text-ink ' +
   'data-[late=true]:border-dashed data-[late=true]:border-[#7A3A36] data-[late=true]:bg-[#0F1219] data-[late=true]:text-[#FF8A80] data-[late=true]:hover:text-[#FF8A80] ' +
   'data-[next=true]:shadow-[0_0_0_3px_#0F1219,0_0_0_5px_#D4FF3A]';
 

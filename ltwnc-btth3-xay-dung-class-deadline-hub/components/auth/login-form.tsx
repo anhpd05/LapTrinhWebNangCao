@@ -98,7 +98,7 @@ export function LoginForm() {
                 setPassword(account.password);
                 setError(null);
               }}
-              className="min-h-10 cursor-pointer rounded-[10px] border border-[#c4c9d2] bg-card px-3 font-mono text-xs font-bold"
+              className="min-h-11 cursor-pointer rounded-[10px] border border-[#c4c9d2] bg-card px-3 font-mono text-xs font-bold"
             >
               {account.label}
             </button>
@@ -126,7 +126,7 @@ export function LoginForm() {
             Mật khẩu
           </label>
           <div
-            className={`flex items-center gap-2 rounded-card border bg-card py-1 pl-4 pr-1 ${
+            className={`flex items-center gap-2 rounded-card border bg-card py-1 pl-4 pr-1 has-[input:focus-visible]:outline-3 has-[input:focus-visible]:outline-offset-2 has-[input:focus-visible]:outline-link ${
               error ? 'border-late' : 'border-[#c4c9d2]'
             }`}
           >
@@ -145,7 +145,8 @@ export function LoginForm() {
             <button
               type="button"
               onClick={() => setShowPassword((v) => !v)}
-              className="min-h-10 cursor-pointer rounded-[10px] bg-paper px-3 text-[13px] font-semibold"
+              aria-label={showPassword ? 'Ẩn mật khẩu' : 'Hiện mật khẩu'}
+              className="min-h-11 cursor-pointer rounded-[10px] bg-paper px-3 text-[13px] font-semibold"
             >
               {showPassword ? 'Ẩn' : 'Hiện'}
             </button>

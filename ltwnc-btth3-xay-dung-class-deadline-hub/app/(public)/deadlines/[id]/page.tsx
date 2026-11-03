@@ -5,7 +5,7 @@ import { Breadcrumb } from '@/components/deadline/breadcrumb';
 import { SameSubjectList } from '@/components/deadline/same-subject-list';
 import { SharePreview } from '@/components/deadline/share-preview';
 import { DarkBand } from '@/components/layout/dark-band';
-import { PublicHeader } from '@/components/layout/public-header';
+import { HeaderBand } from '@/components/layout/header-band';
 import { MyStatusCard } from '@/components/progress/my-status-card';
 import { CountdownRing } from '@/components/time/countdown-ring';
 import { getDeadline, getDeadlines, getDeadlinesBySubject, getSubjectByCode } from '@/lib/data';
@@ -77,8 +77,9 @@ export default async function DeadlineDetailPage({ params }: { params: Promise<{
           ],
         }}
       />
+      <HeaderBand />
+      <main id="main">
       <DarkBand>
-        <PublicHeader />
         <div className="mx-auto flex max-w-[1280px] flex-wrap items-center gap-9 px-6 pb-12 pt-4">
           <div className="flex min-w-0 flex-[999_1_540px] flex-col gap-5">
             <Breadcrumb
@@ -86,7 +87,7 @@ export default async function DeadlineDetailPage({ params }: { params: Promise<{
             />
             <Link
               href={`/subjects/${subject.slug}`}
-              className="self-start rounded-pill px-3.5 py-2 font-mono text-[13px] font-bold text-ink hover:text-ink"
+              className="relative self-start rounded-pill px-3.5 py-2 font-mono text-[13px] font-bold text-ink hover:text-ink after:absolute after:-inset-y-1 after:inset-x-0 after:content-['']"
               style={{ background: subject.color.c }}
             >
               {subject.code} · {subject.name}
@@ -111,7 +112,7 @@ export default async function DeadlineDetailPage({ params }: { params: Promise<{
         </div>
       </DarkBand>
 
-      <main className="mx-auto flex max-w-[1280px] flex-wrap items-start gap-6 px-6 pb-[72px] pt-8">
+      <div className="mx-auto flex max-w-[1280px] flex-wrap items-start gap-6 px-6 pb-[72px] pt-8">
         <article className="flex min-w-0 flex-[999_1_560px] flex-col gap-5">
           <section className="flex flex-col gap-3 rounded-panel border border-line bg-card p-[26px]">
             <h2 className="font-display text-2xl font-bold">Mô tả</h2>
@@ -123,6 +124,7 @@ export default async function DeadlineDetailPage({ params }: { params: Promise<{
           <MyStatusCard id={deadline.id} title={deadline.title} />
           <SharePreview id={deadline.id} title={deadline.title} />
         </aside>
+      </div>
       </main>
     </>
   );

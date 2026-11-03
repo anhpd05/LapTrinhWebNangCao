@@ -15,7 +15,7 @@ export function WhoAmI() {
     <>
       Bạn đang đăng nhập là{' '}
       <strong className="text-white">
-        {session.user.name} · {ROLE_LABEL[session.user.role]}
+        {session.user.name} ({session.user.studentId}) · {ROLE_LABEL[session.user.role]}
       </strong>
       .
     </>

@@ -27,18 +27,18 @@ export default function LoginPage() {
           <Logo />
         </div>
         <div className="relative flex max-w-[520px] flex-col gap-3.5">
-          <h2 className="font-display text-[56px] font-extrabold leading-[0.98] tracking-[-0.035em]">
+          <p className="font-display text-[56px] font-extrabold leading-[0.98] tracking-[-0.035em]">
             Xong bài nào,
             <br />
             <span className="text-lime">gạch bài đó.</span>
-          </h2>
+          </p>
           <p className="text-[17px] leading-relaxed text-[#c3c9d4]">
             Ai cũng xem được lịch chung. Đăng nhập để có bảng việc riêng.
           </p>
         </div>
       </section>
 
-      <main className="flex flex-1 basis-[460px] items-center justify-center px-6 py-10">
+      <main id="main" className="flex flex-1 basis-[460px] items-center justify-center px-6 py-10">
         <Suspense fallback={<div aria-hidden="true" className="h-[480px] w-full max-w-[420px]" />}>
           <LoginForm />
         </Suspense>

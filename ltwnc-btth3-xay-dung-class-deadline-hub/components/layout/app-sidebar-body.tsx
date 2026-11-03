@@ -11,7 +11,7 @@ const ROLE_LABEL: Record<Role, string> = {
 };
 
 interface AppSidebarBodyProps {
-  user: { name: string; initials: string; role: Role };
+  user: { name: string; initials: string; studentId: string; role: Role };
   openCount: number;
   totalCount: number;
   showAdmin: boolean;
@@ -32,6 +32,7 @@ export function AppSidebarBody({ user, openCount, totalCount, showAdmin }: AppSi
             >
               {ROLE_LABEL[user.role]}
             </span>
+            <span className="font-mono text-[11px] tracking-wide text-muted-dark">{user.studentId}</span>
           </span>
         </div>
         <SignOutButton />

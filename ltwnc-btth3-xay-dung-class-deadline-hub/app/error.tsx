@@ -19,7 +19,7 @@ export default function ErrorPage({ error, reset }: { error: Error & { digest?: 
       >
         LỖI
       </span>
-      <main className="relative mx-auto flex min-h-[70vh] max-w-[1280px] flex-col gap-4 px-6 pb-[72px] pt-[120px]">
+      <main id="main" className="relative mx-auto flex min-h-[70vh] max-w-[1280px] flex-col gap-4 px-6 pb-[72px] pt-[120px]">
         <span className="self-start rounded-pill bg-[#2a2210] px-3 py-1.5 font-mono text-[13px] font-bold tracking-[0.08em] text-[#ffc266]">
           LỖI
         </span>
