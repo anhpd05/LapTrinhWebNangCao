@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# tài liệu/ảnh nộp bài giữ ở máy, không đưa lên GitHub
+/docs/
