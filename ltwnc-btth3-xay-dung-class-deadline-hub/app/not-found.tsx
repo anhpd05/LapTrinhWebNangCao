@@ -15,7 +15,7 @@ export default function NotFound() {
       <PublicHeader />
       <span
         aria-hidden="true"
-        className="pointer-events-none absolute right-[-20px] top-10 select-none font-display text-[clamp(160px,34vw,340px)] font-extrabold leading-none tracking-[-0.07em] text-transparent [-webkit-text-stroke:2px_#D4FF3A]"
+        className="pointer-events-none absolute right-[-20px] top-10 select-none font-display text-[clamp(160px,34vw,340px)] font-extrabold leading-none tracking-[-0.07em] text-transparent [-webkit-text-stroke:2px_#D4FF3A] max-sm:top-[230px]"
       >
         404
       </span>

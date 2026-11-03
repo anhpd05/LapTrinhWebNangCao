@@ -6,7 +6,7 @@ import { PublicNav } from './public-nav';
 // đăng nhập do UserMenu/PublicNav đọc ở client bằng useSession().
 export function PublicHeader() {
   return (
-    <header className="mx-auto flex max-w-[1280px] flex-wrap items-center gap-x-6 gap-y-3 px-6 py-4">
+    <header className="mx-auto flex max-w-[1280px] flex-wrap items-center gap-x-6 gap-y-3 px-6 py-4 max-sm:gap-x-3 max-sm:px-4">
       <Logo />
       <PublicNav />
       <div className="ml-auto">

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { HomeCta } from '@/components/home-cta';
+import { HomeCta, HomeCtaText } from '@/components/home-cta';
 import { SubjectCard } from '@/components/deadline/subject-card';
 import { Timeline } from '@/components/deadline/timeline';
 import { DarkBand } from '@/components/layout/dark-band';
@@ -74,9 +74,7 @@ export default async function HomePage() {
             <h2 id="cta-heading" className="font-display text-[30px] font-extrabold leading-[1.1] tracking-[-0.02em]">
               Xong bài nào, gạch bài đó.
             </h2>
-            <p className="text-base text-[#2B3110]">
-              Đăng nhập để có bảng việc riêng và theo dõi tiến độ học kỳ.
-            </p>
+            <HomeCtaText />
           </div>
           <HomeCta />
         </section>

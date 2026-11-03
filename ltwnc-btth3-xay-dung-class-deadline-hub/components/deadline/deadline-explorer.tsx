@@ -44,7 +44,8 @@ function groupRanges(now: number): Record<WeekBucket, string> {
   const monday = today - ((today + 3) % 7);
   return {
     late: `trước ${ddmm(today)}`,
-    thisWeek: `${ddmm(monday)} – ${ddmm(monday + 6)}`,
+    // hôm nay luôn nằm trong tuần này; bắt đầu từ hôm nay để không trùng với nhóm "Quá hạn · trước hôm nay"
+    thisWeek: `${ddmm(Math.max(today, monday))} – ${ddmm(monday + 6)}`,
     nextWeek: `${ddmm(monday + 7)} – ${ddmm(monday + 13)}`,
     later: `từ ${ddmm(monday + 14)}`,
   };
@@ -207,6 +208,7 @@ export function DeadlineExplorer({ deadlines, subjects, renderedAt }: DeadlineEx
       <div className="flex min-w-0 flex-[999_1_640px] flex-col gap-6">
         <p className="m-0 text-[15px] text-[#3D4350]" aria-live="polite">
           Hiển thị <strong className="font-mono text-ink">{filtered.length}</strong> / {sorted.length} deadline
+          {progress.status === 'authenticated' && <span className="text-muted"> · tick ô vuông để đánh dấu đã xong</span>}
         </p>
 
         {groups.map((g) => (

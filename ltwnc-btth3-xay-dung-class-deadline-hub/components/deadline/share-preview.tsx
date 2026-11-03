@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { CopyLinkButton } from '@/components/ui/copy-link-button';
+import { absoluteUrl } from '@/lib/site';
 
 interface SharePreviewProps {
   id: string;
@@ -10,6 +11,7 @@ interface SharePreviewProps {
 // (không cần qua bộ tối ưu của next/image).
 export function SharePreview({ id, title }: SharePreviewProps) {
   const path = `/deadlines/${id}`;
+  const displayUrl = absoluteUrl(path).replace(/^https?:\/\//, '');
 
   return (
     <section className="flex flex-col gap-3 rounded-panel border border-line bg-card p-[18px]">
@@ -25,7 +27,7 @@ export function SharePreview({ id, title }: SharePreviewProps) {
           className="block aspect-[1200/630] h-auto w-full bg-ink object-cover"
         />
         <div className="flex flex-col gap-0.5 bg-[#f6f7f9] px-3 py-2.5">
-          <span className="break-all text-xs text-muted">{path}</span>
+          <span className="break-all text-xs text-muted">{displayUrl}</span>
           <span className="text-sm font-semibold">{title} · Deadline Hub</span>
         </div>
       </div>

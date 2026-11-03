@@ -36,7 +36,7 @@ function NavGroup({ heading, headingClass, items, pathname }: {
                 className={`flex min-h-[46px] items-center gap-3 rounded-field px-3 text-[15px] ${
                   current
                     ? 'bg-lime font-bold text-ink hover:text-ink'
-                    : 'font-medium text-[#c3c9d4] hover:bg-ink-2 hover:text-white'
+                    : 'font-semibold text-[#c3c9d4] hover:bg-ink-2 hover:text-white'
                 }`}
               >
                 <span

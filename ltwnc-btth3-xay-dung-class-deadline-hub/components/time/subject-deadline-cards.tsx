@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useProgress } from '@/components/progress/progress-provider';
 import { useNow } from '@/hooks/use-now';
 import { calendarDaysLeft, daysLeft, msLeft } from '@/lib/countdown';
 import { formatDayMonth } from '@/lib/format';
@@ -10,43 +11,50 @@ interface SubjectDeadlineCardsProps {
   renderedAt: number;
 }
 
-type CardKind = 'late' | 'next' | 'upcoming';
+type CardKind = 'late' | 'next' | 'upcoming' | 'done';
 
 const CARD_CLASS: Record<CardKind, string> = {
   next: 'border-ink bg-ink text-white',
   late: 'border-[#f6cfc9] bg-[#fff1ef] text-ink',
   upcoming: 'border-line bg-card text-ink',
+  done: 'border-line bg-card text-ink',
 };
 
 const BADGE_CLASS: Record<CardKind, string> = {
   next: 'bg-lime text-ink',
   late: 'bg-card text-late',
   upcoming: 'bg-ok-bg text-ok',
+  done: 'bg-done-bg text-done',
 };
 
 const BADGE_TEXT: Record<CardKind, string> = {
   next: 'Kế tiếp',
   late: 'Quá hạn',
   upcoming: 'Sắp tới',
+  done: 'Đã xong',
 };
 
 // Thẻ deadline của một môn. Nhãn và số ngày phụ thuộc "bây giờ" nên là client island:
 // lần render đầu dùng `renderedAt` của server, sau khi mount cập nhật mỗi 60 giây.
 export function SubjectDeadlineCards({ deadlines, renderedAt }: SubjectDeadlineCardsProps) {
   const now = useNow(renderedAt, 60_000);
+  const progress = useProgress();
+  // Khách / đang tải tiến độ: không có deadline nào "đã xong", giao diện y hệt HTML server.
+  const isDone = (id: string) => progress.status === 'authenticated' && progress.completed.has(id);
 
   const nextId = deadlines
-    .filter((d) => msLeft(d.dueAt, now) >= 0)
+    .filter((d) => msLeft(d.dueAt, now) >= 0 && !isDone(d.id))
     .sort((a, b) => Date.parse(a.dueAt) - Date.parse(b.dueAt))[0]?.id;
 
   return (
     <ul className="grid list-none grid-cols-[repeat(auto-fit,minmax(min(300px,100%),1fr))] gap-4 p-0">
       {deadlines.map((d) => {
         const isLate = msLeft(d.dueAt, now) < 0;
-        const kind: CardKind = isLate ? 'late' : d.id === nextId ? 'next' : 'upcoming';
+        const done = isDone(d.id);
+        const kind: CardKind = done ? 'done' : isLate ? 'late' : d.id === nextId ? 'next' : 'upcoming';
         const num = isLate ? -daysLeft(d.dueAt, now) : calendarDaysLeft(d.dueAt, now);
         const subColor = kind === 'next' ? 'text-muted-dark' : 'text-muted';
-        const numColor = kind === 'next' ? 'text-lime' : kind === 'late' ? 'text-late' : 'text-ink';
+        const numColor = kind === 'next' ? 'text-lime' : kind === 'late' ? 'text-late' : kind === 'done' ? 'text-done' : 'text-ink';
 
         return (
           <li key={d.id} className="flex">
@@ -67,10 +75,10 @@ export function SubjectDeadlineCards({ deadlines, renderedAt }: SubjectDeadlineC
                 <span
                   className={`font-display text-[60px] font-extrabold leading-[0.9] tracking-[-0.04em] ${numColor}`}
                 >
-                  {num}
+                  {done ? '✓' : num}
                 </span>
                 <span className={`text-[15px] font-semibold ${subColor}`}>
-                  {isLate ? 'ngày quá hạn' : 'ngày còn lại'}
+                  {done ? 'đã hoàn thành' : isLate ? 'ngày quá hạn' : 'ngày còn lại'}
                 </span>
               </span>
             </Link>

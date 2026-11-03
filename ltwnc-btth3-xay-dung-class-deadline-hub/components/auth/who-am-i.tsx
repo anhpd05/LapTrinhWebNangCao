@@ -15,7 +15,9 @@ export function WhoAmI() {
     <>
       Bạn đang đăng nhập là{' '}
       <strong className="text-white">
-        {session.user.name} ({session.user.studentId}) · {ROLE_LABEL[session.user.role]}
+        {session.user.name}
+        {typeof session.user.studentId === 'string' && session.user.studentId !== '' ? ` (${session.user.studentId})` : ''}{' '}
+        · {ROLE_LABEL[session.user.role]}
       </strong>
       .
     </>

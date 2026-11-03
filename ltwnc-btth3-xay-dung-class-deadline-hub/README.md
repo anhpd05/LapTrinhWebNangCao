@@ -107,14 +107,22 @@ Ký hiệu trong output của `npm run build`: **○** = Static (SSG), **●** =
 
 | Route | Chiến lược | Ký hiệu | Chi tiết thật khi build | Lý do chọn |
 |---|---|---|---|---|
-| `/` | SSG | ○ | Không export `revalidate` | Nội dung gần như không đổi và ai cũng thấy giống nhau, nên SSG cho TTFB thấp nhất. Khi admin thêm/xoá deadline, Server Action gọi `revalidatePath('/')` để làm mới đúng lúc. |
+| `/` | 78 | 100 | 100 | 100 | 4.9 s | 0 | 210 ms |
 | `/subjects/[slug]` | SSG + on-demand | ● | `generateStaticParams` sinh 4 path (4 môn) | Chỉ có 4 môn cố định nên dựng trước cả 4 trang tĩnh; Server Action `revalidatePath` đúng môn bị ảnh hưởng. |
 | `/deadlines` | ISR theo thời gian | ○ | `revalidate = 60` (hiển thị `1m`) | Danh sách chấp nhận trễ tối đa 60 giây, không cần làm mới ngay sau thao tác của admin nên dùng ISR chu kỳ. Cố ý **không** `revalidatePath('/deadlines')`. |
 | `/deadlines/[id]` | ISR on-demand | ● | `generateStaticParams` sinh 12 id; `revalidate = 3600` (`1h`) làm lưới an toàn; `dynamicParams = true` | Cần đúng ngay sau khi admin sửa nhưng vẫn muốn phục vụ HTML tĩnh (SEO, ảnh OG, tốc độ). Xem câu hỏi (1) bên dưới. |
 | `/dashboard` | SSR | ƒ | Đọc session + tiến độ của từng người | Phụ thuộc người dùng đang đăng nhập nên không thể dùng chung HTML tĩnh. |
 | `/admin` | SSR | ƒ | Đọc session + dữ liệu mới nhất + nhật ký làm mới | Cần dữ liệu mới nhất và phải kiểm tra quyền ở mỗi request. |
 
-Kết quả `npm run build` (văn bản đầy đủ: [docs/build-output.txt](docs/build-output.txt)). Ảnh giao diện thật ở 1440px và 375px nằm trong [docs/images/ui/](docs/images/ui/) (`desktop-*.png`, `mobile-*.png`).
+Kết quả `npm run build` (văn bản đầy đủ: [docs/build-output.txt](docs/build-output.txt)):
+
+![Bảng route của npm run build](docs/images/build-output.png)
+
+Ảnh view-source `/deadlines/1` (title, og:image, twitter:card, canonical, JSON-LD BreadcrumbList lấy từ HTML thật):
+
+![view-source /deadlines/1](docs/images/view-source-deadline-1.png)
+
+Ảnh giao diện thật ở 1440px và 375px: [docs/images/ui/](docs/images/ui/) (`desktop-*.png`, `mobile-*.png`).
 
 ### Ghi chú kỹ thuật
 
@@ -249,9 +257,9 @@ Jest gồm **3 suite, 44 test**: `__tests__/permissions.test.ts` (ma trận `can
 | Trang | Performance | Accessibility | Best Practices | SEO | LCP | CLS | TBT |
 |---|---|---|---|---|---|---|---|
 | `/` | 78 | 100 | 100 | 100 | 4.9 s | 0 | 160 ms |
-| `/deadlines/1` | 81 | 100 | 100 | 100 | 4.5 s | 0 | 190 ms |
+| `/deadlines/1` | 79 | 100 | 100 | 100 | 4.9 s | 0 | 130 ms |
 
-Ghi chú trung thực: Performance dưới 90 do LCP 4.5–4.9 s trong điều kiện mô phỏng mạng 4G chậm; Accessibility, Best Practices và SEO đều đạt 100.
+Ghi chú trung thực: Performance dưới 90 vì LCP khoảng 4.9 s trong điều kiện mô phỏng 4G chậm + CPU chậm 4x; LCP là chữ H1 và phần lớn thời gian là chờ render (tải 18 file font). Đã thử thêm subset `latin-ext` và bỏ weight 500 nhưng số đo không đổi, nên chưa coi là đã tối ưu xong. Accessibility, Best Practices và SEO đều đạt 100.
 
 ## Deploy (Hostinger)
 

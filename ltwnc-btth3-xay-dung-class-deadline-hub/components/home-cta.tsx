@@ -3,8 +3,20 @@
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 
-// Client nhỏ: trang chủ là SSG nên không đọc session ở server. Mặc định (và lúc session
+// Hai client nhỏ (phụ đề + nút): trang chủ là SSG nên không đọc session ở server. Mặc định (và lúc session
 // đang tải) hiện nút "Đăng nhập →" khớp HTML tĩnh; đăng nhập rồi thì đổi sang "Mở Việc của tôi →".
+export function HomeCtaText() {
+  const { status } = useSession();
+
+  return (
+    <p className="text-base text-[#2B3110]">
+      {status === 'authenticated'
+        ? 'Bạn đã đăng nhập. Mở bảng việc để tick bài đã xong.'
+        : 'Đăng nhập để có bảng việc riêng và theo dõi tiến độ học kỳ.'}
+    </p>
+  );
+}
+
 export function HomeCta() {
   const { status } = useSession();
   const loggedIn = status === 'authenticated';
