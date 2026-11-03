@@ -32,6 +32,11 @@ async function verifiedPrimaryEmail(accessToken: string | undefined): Promise<st
   return parsed.data.find((e) => e.primary && e.verified)?.email ?? null;
 }
 
+// Sau reverse proxy của Hostinger, Next nhận host là `0.0.0.0:3000`, nên Auth.js dựng sai mọi URL tuyệt đối
+// (Đăng xuất chuyển tới https://0.0.0.0:3000/, callback GitHub sai). `AUTH_URL` buộc Auth.js dùng đúng
+// địa chỉ gốc; next-auth đọc nó ở mỗi request. Lấy theo SITE_URL để khỏi khai báo trùng hai biến.
+if (!process.env.AUTH_URL && process.env.SITE_URL) process.env.AUTH_URL = process.env.SITE_URL;
+
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
   providers: [
