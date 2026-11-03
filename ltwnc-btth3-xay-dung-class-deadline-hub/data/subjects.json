@@ -1,30 +1,50 @@
 [
   {
-    "slug": "lap-trinh-web-nang-cao",
-    "name": "Lập trình Web nâng cao",
-    "code": "INT1434",
-    "description": "Xây dựng ứng dụng web hiện đại với Next.js, App Router, xác thực và các chiến lược render.",
-    "color": "#2563eb"
+    "code": "WEB",
+    "slug": "lap-trinh-web",
+    "name": "Lập trình Web",
+    "desc": "Next.js App Router, rendering, xác thực, SEO",
+    "lecturer": "ThS. Trần Minh Quân",
+    "color": {
+      "c": "#7AA2FF",
+      "ink": "#2747C9",
+      "bg": "#EEF2FF"
+    }
   },
   {
+    "code": "CSDL",
     "slug": "co-so-du-lieu",
     "name": "Cơ sở dữ liệu",
-    "code": "INT1313",
-    "description": "Mô hình quan hệ, SQL, chuẩn hoá lược đồ và thiết kế cơ sở dữ liệu cho ứng dụng thực tế.",
-    "color": "#059669"
+    "desc": "Mô hình ER, chuẩn hoá, SQL",
+    "lecturer": "TS. Nguyễn Thị Lan",
+    "color": {
+      "c": "#3DDBB0",
+      "ink": "#0A6E55",
+      "bg": "#E3F7EF"
+    }
   },
   {
+    "code": "MMT",
     "slug": "mang-may-tinh",
     "name": "Mạng máy tính",
-    "code": "INT1336",
-    "description": "Mô hình TCP/IP, định tuyến, tầng giao vận và các giao thức ứng dụng thường gặp.",
-    "color": "#d97706"
+    "desc": "Mô hình TCP/IP, địa chỉ IP, định tuyến",
+    "lecturer": "ThS. Phạm Đức Hải",
+    "color": {
+      "c": "#FFB347",
+      "ink": "#934700",
+      "bg": "#FFF1DE"
+    }
   },
   {
-    "slug": "tri-tue-nhan-tao",
-    "name": "Trí tuệ nhân tạo",
-    "code": "INT1341",
-    "description": "Tìm kiếm, biểu diễn tri thức, học máy cơ bản và các bài toán suy diễn.",
-    "color": "#7c3aed"
+    "code": "TRR",
+    "slug": "toan-roi-rac",
+    "name": "Toán rời rạc",
+    "desc": "Logic, quy nạp, đồ thị",
+    "lecturer": "TS. Lê Văn Thắng",
+    "color": {
+      "c": "#C99BFF",
+      "ink": "#6D2FB0",
+      "bg": "#F3EAFF"
+    }
   }
 ]

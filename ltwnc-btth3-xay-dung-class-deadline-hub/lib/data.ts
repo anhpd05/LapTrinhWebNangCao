@@ -1,7 +1,14 @@
 import 'server-only';
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
-import type { Deadline, Progress, Subject, UserRecord } from './types';
+import type {
+  Deadline,
+  Progress,
+  RevalidateLogEntry,
+  Subject,
+  SubjectCode,
+  UserRecord,
+} from './types';
 
 /**
  * Module DUY NHẤT được chạm vào hệ thống file. Nếu sau này đổi nơi lưu dữ liệu
@@ -36,8 +43,12 @@ export async function getSubjects(): Promise<Subject[]> {
   return readJson<Subject[]>('subjects.json');
 }
 
-export async function getSubject(slug: string): Promise<Subject | undefined> {
+export async function getSubjectBySlug(slug: string): Promise<Subject | undefined> {
   return (await getSubjects()).find((s) => s.slug === slug);
+}
+
+export async function getSubjectByCode(code: SubjectCode): Promise<Subject | undefined> {
+  return (await getSubjects()).find((s) => s.code === code);
 }
 
 export async function getDeadlines(): Promise<Deadline[]> {
@@ -49,8 +60,8 @@ export async function getDeadline(id: string): Promise<Deadline | undefined> {
   return (await getDeadlines()).find((d) => d.id === id);
 }
 
-export async function getDeadlinesBySubject(slug: string): Promise<Deadline[]> {
-  return (await getDeadlines()).filter((d) => d.subjectSlug === slug);
+export async function getDeadlinesBySubject(code: SubjectCode): Promise<Deadline[]> {
+  return (await getDeadlines()).filter((d) => d.subjectCode === code);
 }
 
 export async function getUserByEmail(email: string): Promise<UserRecord | undefined> {
@@ -62,6 +73,12 @@ export async function getUserByEmail(email: string): Promise<UserRecord | undefi
 export async function getCompletedIds(userId: string): Promise<string[]> {
   const progress = await readJson<Progress>('progress.json');
   return progress[userId] ?? [];
+}
+
+/** Nhật ký làm mới trang, mới nhất trước. */
+export async function getRevalidateLog(limit = 20): Promise<RevalidateLogEntry[]> {
+  const log = await readJson<RevalidateLogEntry[]>('revalidate-log.json');
+  return log.slice(-limit).reverse();
 }
 
 // ---------- Ghi ----------
@@ -113,5 +130,16 @@ export function toggleCompleted(userId: string, id: string): Promise<boolean> {
     progress[userId] = done ? [...current, id] : current.filter((x) => x !== id);
     await writeJson('progress.json', progress);
     return done;
+  });
+}
+
+const MAX_LOG_ENTRIES = 20;
+
+/** Thêm một dòng vào nhật ký làm mới trang, chỉ giữ 20 dòng gần nhất. */
+export function appendRevalidateLog(text: string): Promise<void> {
+  return serialize(async () => {
+    const log = await readJson<RevalidateLogEntry[]>('revalidate-log.json');
+    const next = [...log, { at: new Date().toISOString(), text }].slice(-MAX_LOG_ENTRIES);
+    await writeJson('revalidate-log.json', next);
   });
 }

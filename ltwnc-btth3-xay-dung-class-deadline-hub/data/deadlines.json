@@ -1,110 +1,110 @@
 [
   {
     "id": "1",
-    "title": "BTTH 2: Dựng giao diện với Server Component",
-    "subjectSlug": "lap-trinh-web-nang-cao",
-    "dueAt": "2026-10-30T23:59:00+07:00",
-    "description": "Dựng trang danh sách và trang chi tiết bằng Server Component, nộp mã nguồn lên LMS.",
-    "type": "bai-tap",
-    "createdAt": "2026-10-15T08:00:00+07:00"
+    "title": "Bài tập lớn: Class Deadline Hub",
+    "subjectCode": "WEB",
+    "dueAt": "2026-11-10T23:59:00+07:00",
+    "description": "Xây dựng cổng deadline của lớp bằng Next.js App Router: trang công khai dùng SSG/ISR, đăng nhập bằng Auth.js (Credentials, JWT), phân quyền bằng can(role, action), metadata động và ảnh chia sẻ cho từng deadline.",
+    "submitVia": "Google Classroom",
+    "createdAt": "2026-10-26T08:00:00+07:00"
   },
   {
     "id": "2",
-    "title": "BTTH 3: Class Deadline Hub",
-    "subjectSlug": "lap-trinh-web-nang-cao",
-    "dueAt": "2026-11-20T23:59:00+07:00",
-    "description": "Xây dựng cổng deadline bằng Next.js 15, Auth.js và dữ liệu JSON; nộp kèm README.",
-    "type": "bai-tap",
-    "createdAt": "2026-11-03T07:00:00+07:00"
+    "title": "Bài tập Buổi 8: Auth.js & Middleware",
+    "subjectCode": "WEB",
+    "dueAt": "2026-11-05T23:59:00+07:00",
+    "description": "Cấu hình Auth.js với Credentials và bảo vệ các route riêng tư bằng middleware.",
+    "submitVia": "Google Classroom",
+    "createdAt": "2026-10-26T08:00:00+07:00"
   },
   {
     "id": "3",
-    "title": "Đồ án giữa kỳ: Ứng dụng web nhóm",
-    "subjectSlug": "lap-trinh-web-nang-cao",
-    "dueAt": "2026-12-15T23:59:00+07:00",
-    "description": "Nhóm 3–4 người xây dựng một ứng dụng web hoàn chỉnh, demo trực tiếp trên lớp.",
-    "type": "do-an",
-    "createdAt": "2026-10-20T08:00:00+07:00"
+    "title": "Quiz Buổi 7: Rendering trong Next.js",
+    "subjectCode": "WEB",
+    "dueAt": "2026-11-01T23:59:00+07:00",
+    "description": "Làm quiz trắc nghiệm về SSG, ISR và SSR trong Next.js App Router, thời gian làm bài 20 phút.",
+    "submitVia": "Google Classroom",
+    "createdAt": "2026-10-26T08:00:00+07:00"
   },
   {
     "id": "4",
-    "title": "Bài tập SQL: Truy vấn nhiều bảng",
-    "subjectSlug": "co-so-du-lieu",
-    "dueAt": "2026-11-01T23:59:00+07:00",
-    "description": "Viết 15 truy vấn JOIN, GROUP BY và truy vấn con trên lược đồ quản lý sinh viên.",
-    "type": "bai-tap",
-    "createdAt": "2026-10-18T09:00:00+07:00"
+    "title": "Thiết kế ERD cho hệ thống thư viện",
+    "subjectCode": "CSDL",
+    "dueAt": "2026-11-06T23:59:00+07:00",
+    "description": "Vẽ ERD cho hệ thống quản lý thư viện gồm sách, bạn đọc và phiếu mượn, nêu rõ khoá và bản số.",
+    "submitVia": "LMS PTIT",
+    "createdAt": "2026-10-26T08:00:00+07:00"
   },
   {
     "id": "5",
-    "title": "Kiểm tra: Chuẩn hoá lược đồ",
-    "subjectSlug": "co-so-du-lieu",
-    "dueAt": "2026-11-12T13:30:00+07:00",
-    "description": "Kiểm tra 45 phút về phụ thuộc hàm và các dạng chuẩn 1NF đến BCNF.",
-    "type": "kiem-tra",
-    "createdAt": "2026-10-25T09:00:00+07:00"
+    "title": "Bài tập SQL nâng cao: JOIN & subquery",
+    "subjectCode": "CSDL",
+    "dueAt": "2026-11-14T23:59:00+07:00",
+    "description": "Viết 12 truy vấn dùng JOIN nhiều bảng và truy vấn con trên cơ sở dữ liệu mẫu của môn học.",
+    "submitVia": "LMS PTIT",
+    "createdAt": "2026-10-26T08:00:00+07:00"
   },
   {
     "id": "6",
-    "title": "Đồ án: Thiết kế CSDL cho hệ thống thư viện",
-    "subjectSlug": "co-so-du-lieu",
-    "dueAt": "2026-12-10T23:59:00+07:00",
-    "description": "Phân tích yêu cầu, vẽ ERD, chuyển sang lược đồ quan hệ và viết script tạo bảng.",
-    "type": "do-an",
-    "createdAt": "2026-10-28T09:00:00+07:00"
+    "title": "Báo cáo chuẩn hoá dữ liệu (3NF)",
+    "subjectCode": "CSDL",
+    "dueAt": "2026-10-28T23:59:00+07:00",
+    "description": "Chuẩn hoá lược đồ quản lý sinh viên về dạng chuẩn 3 (3NF), nêu rõ phụ thuộc hàm và từng bước tách bảng.",
+    "submitVia": "LMS PTIT",
+    "createdAt": "2026-10-26T08:00:00+07:00"
   },
   {
     "id": "7",
-    "title": "Bài tập: Phân tích gói tin với Wireshark",
-    "subjectSlug": "mang-may-tinh",
-    "dueAt": "2026-10-31T23:59:00+07:00",
-    "description": "Bắt và phân tích quá trình bắt tay ba bước TCP, nộp báo cáo kèm ảnh chụp.",
-    "type": "bai-tap",
-    "createdAt": "2026-10-16T10:00:00+07:00"
+    "title": "Lab Wireshark: phân tích gói tin HTTP",
+    "subjectCode": "MMT",
+    "dueAt": "2026-11-04T23:59:00+07:00",
+    "description": "Bắt gói tin khi truy cập một trang web, chỉ ra request, response và các header quan trọng, nộp kèm ảnh chụp.",
+    "submitVia": "LMS PTIT",
+    "createdAt": "2026-10-26T08:00:00+07:00"
   },
   {
     "id": "8",
-    "title": "Kiểm tra: Tầng giao vận",
-    "subjectSlug": "mang-may-tinh",
-    "dueAt": "2026-11-18T07:30:00+07:00",
-    "description": "Kiểm tra 30 phút về TCP, UDP, điều khiển luồng và điều khiển tắc nghẽn.",
-    "type": "kiem-tra",
-    "createdAt": "2026-11-01T10:00:00+07:00"
+    "title": "Bài tập Subnetting & VLSM",
+    "subjectCode": "MMT",
+    "dueAt": "2026-11-12T23:59:00+07:00",
+    "description": "Chia mạng con VLSM cho sơ đồ mạng 4 chi nhánh và lập bảng địa chỉ đầy đủ.",
+    "submitVia": "LMS PTIT",
+    "createdAt": "2026-10-26T08:00:00+07:00"
   },
   {
     "id": "9",
-    "title": "Bài tập lớn: Chia mạng con và định tuyến",
-    "subjectSlug": "mang-may-tinh",
-    "dueAt": "2026-11-27T23:59:00+07:00",
-    "description": "Chia mạng con VLSM cho mô hình 4 chi nhánh và cấu hình định tuyến tĩnh trên Packet Tracer.",
-    "type": "bai-tap",
-    "createdAt": "2026-11-02T10:00:00+07:00"
+    "title": "Báo cáo thực hành định tuyến",
+    "subjectCode": "MMT",
+    "dueAt": "2026-11-20T23:59:00+07:00",
+    "description": "Cấu hình định tuyến tĩnh và RIP trên Packet Tracer, nộp báo cáo kèm file .pkt.",
+    "submitVia": "LMS PTIT",
+    "createdAt": "2026-10-26T08:00:00+07:00"
   },
   {
     "id": "10",
-    "title": "Bài tập: Tìm kiếm không có thông tin",
-    "subjectSlug": "tri-tue-nhan-tao",
-    "dueAt": "2026-11-02T23:59:00+07:00",
-    "description": "Cài đặt BFS, DFS và UCS cho bài toán tìm đường trên mê cung.",
-    "type": "bai-tap",
-    "createdAt": "2026-10-19T14:00:00+07:00"
+    "title": "Bài tập chương 3: Đồ thị",
+    "subjectCode": "TRR",
+    "dueAt": "2026-11-07T23:59:00+07:00",
+    "description": "Giải các bài về đường đi Euler, Hamilton và tìm cây khung nhỏ nhất.",
+    "submitVia": "Nộp giấy trên lớp",
+    "createdAt": "2026-10-26T08:00:00+07:00"
   },
   {
     "id": "11",
-    "title": "Kiểm tra: Tìm kiếm có thông tin và CSP",
-    "subjectSlug": "tri-tue-nhan-tao",
-    "dueAt": "2026-11-25T13:30:00+07:00",
-    "description": "Kiểm tra 45 phút về A*, heuristic chấp nhận được và bài toán ràng buộc.",
-    "type": "kiem-tra",
-    "createdAt": "2026-11-02T14:00:00+07:00"
+    "title": "Kiểm tra giữa kỳ",
+    "subjectCode": "TRR",
+    "dueAt": "2026-11-18T23:59:00+07:00",
+    "description": "Kiểm tra 60 phút về logic mệnh đề, quy nạp và đồ thị.",
+    "submitVia": "Làm trực tiếp trên lớp",
+    "createdAt": "2026-10-26T08:00:00+07:00"
   },
   {
     "id": "12",
-    "title": "Đồ án: Trợ lý chơi cờ caro",
-    "subjectSlug": "tri-tue-nhan-tao",
-    "dueAt": "2026-12-22T23:59:00+07:00",
-    "description": "Xây dựng agent chơi cờ caro dùng Minimax cắt tỉa alpha-beta, kèm báo cáo đánh giá.",
-    "type": "do-an",
-    "createdAt": "2026-11-02T14:30:00+07:00"
+    "title": "Bài tập quy nạp toán học",
+    "subjectCode": "TRR",
+    "dueAt": "2026-10-30T23:59:00+07:00",
+    "description": "Giải 8 bài chứng minh bằng quy nạp toán học, trình bày đủ bước cơ sở và bước quy nạp.",
+    "submitVia": "Nộp giấy trên lớp",
+    "createdAt": "2026-10-26T08:00:00+07:00"
   }
 ]

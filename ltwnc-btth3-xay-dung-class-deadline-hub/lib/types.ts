@@ -1,23 +1,33 @@
 export type Role = 'admin' | 'user';
 
-export type DeadlineType = 'bai-tap' | 'kiem-tra' | 'do-an';
+export type SubjectCode = 'WEB' | 'CSDL' | 'MMT' | 'TRR';
+
+export interface SubjectColor {
+  /** màu chấm / mốc */
+  c: string;
+  /** màu chữ nhãn môn */
+  ink: string;
+  /** màu nền tag môn */
+  bg: string;
+}
 
 export interface Subject {
+  code: SubjectCode;
   slug: string;
   name: string;
-  code: string;
-  description: string;
-  color: string;
+  desc: string;
+  lecturer: string;
+  color: SubjectColor;
 }
 
 export interface Deadline {
   id: string;
   title: string;
-  subjectSlug: string;
+  subjectCode: SubjectCode;
   /** ISO 8601 kèm múi giờ, ví dụ `2026-11-20T23:59:00+07:00` */
   dueAt: string;
   description: string;
-  type: DeadlineType;
+  submitVia: string;
   createdAt: string;
 }
 
@@ -25,9 +35,16 @@ export interface UserRecord {
   id: string;
   email: string;
   name: string;
+  initials: string;
   passwordHash: string;
   role: Role;
 }
 
 /** userId -> danh sách id deadline đã hoàn thành */
 export type Progress = Record<string, string[]>;
+
+export interface RevalidateLogEntry {
+  /** ISO 8601 */
+  at: string;
+  text: string;
+}
