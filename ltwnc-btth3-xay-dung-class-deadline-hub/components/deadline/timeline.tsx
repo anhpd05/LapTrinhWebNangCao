@@ -28,6 +28,18 @@ const ITEM_DATE_CLASS =
   'rounded-pill border-[1.5px] border-solid border-(--pin) bg-(--pin) px-3 py-1 font-mono text-xs font-bold text-ink ' +
   'group-data-[late=true]:border-dashed group-data-[late=true]:border-[#7A3A36] group-data-[late=true]:bg-[#0F1219] group-data-[late=true]:text-[#FF8A80]';
 
+// Nhãn tên bài nổi cạnh mốc khi hover/focus (hiện/ẩn bằng `.pin-tip` trong globals.css).
+// Làn đầu tiên hiện nhãn phía dưới, các làn khác phía trên, để khung cuộn không cắt nhãn.
+// Mốc sát mép trái/phải thì canh nhãn theo mép vì cùng lý do.
+const TIP_CLASS =
+  'pin-tip pointer-events-none absolute z-40 w-max max-w-[260px] whitespace-normal rounded-[10px] bg-on-dark px-3 py-2 text-left font-sans text-[13px] font-semibold leading-snug text-ink shadow-[0_12px_30px_-10px_#000]';
+
+function tipAlign(pct: number): string {
+  if (pct < 18) return 'left-0';
+  if (pct > 82) return 'right-0';
+  return 'left-1/2 -translate-x-1/2';
+}
+
 export function Timeline({ deadlines, subjects, renderedAt }: TimelineProps) {
   const layout = buildTimelineLayout(
     deadlines.map((d) => d.dueAt),
@@ -58,7 +70,7 @@ export function Timeline({ deadlines, subjects, renderedAt }: TimelineProps) {
             </div>
             <TimelineNow renderedAt={renderedAt} startMs={layout.startMs} spanMs={layout.spanMs} />
 
-            <div className="border-b border-line-dark" />
+            <div className="flex items-center border-b border-line-dark px-4 font-mono text-xs text-muted-dark">MÔN</div>
             <div className="relative h-[38px] border-b border-line-dark">
               {layout.weeks.map((w) => (
                 <span
@@ -71,13 +83,14 @@ export function Timeline({ deadlines, subjects, renderedAt }: TimelineProps) {
               ))}
             </div>
 
-            {subjects.map((subject) => (
+            {subjects.map((subject, i) => (
               <LaneRow
                 key={subject.code}
                 subject={subject}
                 deadlines={deadlines.filter((d) => d.subjectCode === subject.code)}
                 layout={layout}
                 renderedAt={renderedAt}
+                tipBelow={i === 0}
               />
             ))}
           </div>
@@ -133,17 +146,19 @@ function LaneRow({
   deadlines,
   layout,
   renderedAt,
+  tipBelow,
 }: {
   subject: Subject;
   deadlines: Deadline[];
   layout: TimelineLayout;
   renderedAt: number;
+  tipBelow: boolean;
 }) {
   return (
     <>
       <Link
         href={`/subjects/${subject.slug}`}
-        className="flex h-16 items-center gap-[10px] border-b border-[#1C212B] px-4 text-[#F4F5F7] hover:text-white"
+        className="flex h-16 items-center gap-[10px] border-b border-[#1C212B] px-4 text-on-dark hover:bg-ink-2 hover:text-white"
       >
         <span aria-hidden="true" className="size-[10px] rounded-[3px]" style={{ background: subject.color.c }} />
         <span className="flex flex-col leading-tight">
@@ -151,21 +166,39 @@ function LaneRow({
           <span className="text-xs text-muted-dark">{subject.name}</span>
         </span>
       </Link>
-      <div className="relative z-10 h-16 border-b border-[#1C212B]">
+      {/* Làn đang hover/focus nổi lên trên các làn khác để nhãn tên bài không bị mốc làn bên cạnh che. */}
+      <div className="relative z-10 h-16 border-b border-[#1C212B] focus-within:z-20 hover:z-20">
         <div aria-hidden="true" className="absolute inset-x-0 top-1/2 h-px bg-line-dark" />
-        {deadlines.map((d) => (
-          <Link
-            key={d.id}
-            href={`/deadlines/${d.id}`}
-            aria-label={`${d.title}, hạn ${formatDayMonth(d.dueAt)}`}
-            data-due={d.dueAt}
-            data-late={String(Date.parse(d.dueAt) < renderedAt)}
-            className={PIN_CLASS}
-            style={{ left: `${pctOf(layout, Date.parse(d.dueAt))}%`, '--pin': subject.color.c } as CSSProperties}
-          >
-            {formatDayMonth(d.dueAt)}
-          </Link>
-        ))}
+        {deadlines.map((d) => {
+          const pct = pctOf(layout, Date.parse(d.dueAt));
+          return (
+            <Link
+              key={d.id}
+              href={`/deadlines/${d.id}`}
+              aria-label={`${d.title}, hạn ${formatDayMonth(d.dueAt)}`}
+              data-due={d.dueAt}
+              data-late={String(Date.parse(d.dueAt) < renderedAt)}
+              className={`timeline-pin ${PIN_CLASS}`}
+              style={
+                {
+                  left: `${pct}%`,
+                  '--pin': subject.color.c,
+                  // Mốc hiện lần lượt từ trái sang phải như thời gian trôi (trễ tối đa 500ms).
+                  '--pin-delay': `${Math.round(pct * 5)}ms`,
+                } as CSSProperties
+              }
+            >
+              {formatDayMonth(d.dueAt)}
+              <span
+                aria-hidden="true"
+                className={`${TIP_CLASS} ${tipBelow ? 'top-[calc(100%+8px)]' : 'bottom-[calc(100%+8px)]'} ${tipAlign(pct)}`}
+              >
+                <span className="block">{d.title}</span>
+                <span className="block text-xs font-normal text-muted">{subject.name}</span>
+              </span>
+            </Link>
+          );
+        })}
       </div>
     </>
   );

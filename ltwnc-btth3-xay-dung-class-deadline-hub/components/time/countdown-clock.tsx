@@ -38,10 +38,13 @@ export function CountdownClock({
             key={c.l}
             className="flex flex-col items-center gap-1 rounded-field border border-[#222733] bg-ink px-1 py-3"
           >
+            {/* key theo giá trị: chỉ ô vừa đổi số được gắn lại và chạy hiệu ứng lật (digit-tick). */}
             <span
-              className={`font-mono text-[30px] font-extrabold leading-none ${late ? 'text-[#ff8a80]' : 'text-lime'}`}
+              className={`overflow-hidden font-mono text-[30px] font-extrabold leading-none ${late ? 'text-[#ff8a80]' : 'text-lime'}`}
             >
-              {String(c.v).padStart(2, '0')}
+              <span key={c.v} className="digit-tick">
+                {String(c.v).padStart(2, '0')}
+              </span>
             </span>
             <span className="text-[11px] tracking-[0.08em] text-[#8f98a8]">{c.l}</span>
           </div>

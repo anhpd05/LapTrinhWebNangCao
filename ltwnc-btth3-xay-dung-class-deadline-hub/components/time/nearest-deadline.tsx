@@ -22,11 +22,19 @@ export function NearestDeadline({ deadlines, subjects, renderedAt }: NearestDead
   const late = sel ? Date.parse(sel.dueAt) < now : false;
 
   return (
-    <div className="flex min-w-0 flex-[1_1_360px] flex-col gap-4 rounded-panel border border-line-dark bg-ink-2 p-[22px] shadow-[0_30px_80px_-20px_#000]">
+    <div className="relative flex min-w-0 flex-[1_1_360px] flex-col gap-4 overflow-hidden rounded-panel border border-line-dark bg-ink-2 p-[22px] shadow-[0_30px_80px_-20px_#000]">
+      <span
+        aria-hidden="true"
+        className="absolute inset-x-6 top-0 h-px bg-[linear-gradient(90deg,transparent,var(--color-lime),transparent)] opacity-70"
+      />
       {sel && subject ? (
         <>
           <div className="flex items-center justify-between gap-3">
-            <span className="font-mono text-xs tracking-[0.1em] text-muted-dark">
+            <span className="inline-flex items-center gap-2 font-mono text-xs tracking-[0.1em] text-muted-dark">
+              <span
+                aria-hidden="true"
+                className={`live-dot size-1.5 rounded-full ${late ? 'bg-[#ff8a80]' : 'bg-lime'}`}
+              />
               {late ? 'ĐÃ QUÁ HẠN' : 'DEADLINE GẦN NHẤT'}
             </span>
             <span
@@ -43,7 +51,7 @@ export function NearestDeadline({ deadlines, subjects, renderedAt }: NearestDead
           <CountdownClock dueAt={sel.dueAt} renderedAt={renderedAt} />
           <Link
             href={`/deadlines/${sel.id}`}
-            className="inline-flex min-h-12 items-center justify-between rounded-field bg-[#F4F5F7] px-[18px] font-bold text-ink hover:text-ink"
+            className="inline-flex min-h-12 items-center justify-between rounded-field bg-on-dark px-[18px] font-bold text-ink hover:bg-lime hover:text-ink"
           >
             Xem chi tiết
             <svg
@@ -56,6 +64,7 @@ export function NearestDeadline({ deadlines, subjects, renderedAt }: NearestDead
               strokeLinecap="round"
               strokeLinejoin="round"
               aria-hidden="true"
+              className="arrow-nudge"
             >
               <path d="M5 12h14M13 6l6 6-6 6" />
             </svg>

@@ -24,9 +24,10 @@ export function HomeCta() {
   return (
     <Link
       href={loggedIn ? '/dashboard' : '/login'}
-      className="inline-flex min-h-[52px] items-center rounded-field bg-ink px-6 text-base font-bold text-white hover:text-white"
+      className="relative inline-flex min-h-[52px] items-center gap-2 rounded-field bg-ink px-6 text-base font-bold text-white hover:bg-ink-2 hover:text-white"
     >
-      {loggedIn ? 'Mở Việc của tôi →' : 'Đăng nhập →'}
+      {loggedIn ? 'Mở Việc của tôi' : 'Đăng nhập'}
+      <span aria-hidden="true" className="arrow-nudge">→</span>
     </Link>
   );
 }

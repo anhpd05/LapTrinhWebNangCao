@@ -5,6 +5,8 @@
   --color-ink: #0b0d12;
   --color-ink-2: #12161e;
   --color-line-dark: #262b36;
+  --color-on-dark: #f4f5f7;
+  --color-on-dark-soft: #c3c9d4;
   --color-grid: #171b24;
   --color-lime: #d4ff3a;
   --color-paper: #f2f3f5;
@@ -34,6 +36,11 @@
   --font-sans: var(--nf-sans), system-ui, sans-serif;
   --font-display: var(--nf-display), var(--nf-sans), sans-serif;
   --font-mono: var(--nf-mono), ui-monospace, monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 24px;
 }
 
 body {
@@ -105,13 +112,16 @@ a, button, summary, label {
   transition-duration: 0.2s;
   transition-timing-function: var(--ease-out-quart);
 }
-main a[class*='rounded-']:hover,
-main button:not(:disabled):hover {
-  transform: translateY(-2px);
-}
-main a[class*='rounded-'][class*='border']:hover,
-main a[class*='rounded-'][class*='bg-card']:hover {
-  box-shadow: 0 10px 24px -14px rgb(11 13 18 / 0.45);
+/* Chỉ thiết bị có chuột: trên cảm ứng, :hover "dính" sau khi chạm làm thẻ nhấc lên mãi. */
+@media (hover: hover) {
+  main a[class*='rounded-']:hover,
+  main button:not(:disabled):hover {
+    transform: translateY(-2px);
+  }
+  main a[class*='rounded-'][class*='border']:hover,
+  main a[class*='rounded-'][class*='bg-card']:hover {
+    box-shadow: 0 10px 24px -14px rgb(11 13 18 / 0.45);
+  }
 }
 a:active,
 button:not(:disabled):active {
@@ -154,6 +164,172 @@ button[aria-pressed='true'] {
   transform-origin: left;
   animation: nav-progress 2.4s var(--ease-out-expo) forwards;
   pointer-events: none;
+}
+
+/* ---------- Trang chủ: "thời gian đang chạy" ----------
+   Chuyển động mang nghĩa: vạch hôm nay thở, mốc kế tiếp có vòng nhịp, giây lật số,
+   mốc trên dòng thời gian hiện lần lượt từ trái sang phải như thời gian trôi. */
+
+/* Nền band tối: lưới mờ dần về phía dưới + quầng sáng lime trôi rất chậm (chỉ transform). */
+.band-grid {
+  mask-image: radial-gradient(ellipse 100% 90% at 30% 0%, #000 35%, transparent 100%);
+}
+@keyframes glow-drift {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(-8%, 10%, 0) scale(1.15); }
+}
+.band-glow {
+  position: absolute;
+  pointer-events: none;
+  border-radius: var(--radius-pill);
+  background: radial-gradient(circle, rgb(212 255 58 / 0.13), transparent 65%);
+  animation: glow-drift 18s ease-in-out infinite;
+}
+
+/* Ba dòng tiêu đề vào lần lượt (chỉ dịch chuyển, chữ hiện sẵn → không chặn LCP). */
+.hero-line {
+  display: block;
+  animation: rise-in 0.7s var(--ease-out-expo) backwards;
+}
+.hero-line:nth-child(2) { animation-delay: 80ms; }
+.hero-line:nth-child(3) { animation-delay: 160ms; }
+
+/* Chấm "đang diễn ra": vòng lan ra rồi tắt, lặp lại. */
+@keyframes live-ping {
+  0% { transform: scale(1); opacity: 0.7; }
+  80%, 100% { transform: scale(2.6); opacity: 0; }
+}
+.live-dot {
+  position: relative;
+}
+.live-dot::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: inherit;
+  animation: live-ping 2s var(--ease-out-quart) infinite;
+}
+
+/* Đồng hồ đếm ngược: số mới trượt xuống vào chỗ mỗi khi đổi giá trị. */
+@keyframes digit-in {
+  from { transform: translateY(-45%); opacity: 0.15; }
+  to { transform: translateY(0); opacity: 1; }
+}
+.digit-tick {
+  display: inline-block;
+  animation: digit-in 0.35s var(--ease-out-expo);
+}
+
+/* Mũi tên trong nút/link nhích sang phải khi hover. */
+.arrow-nudge {
+  display: inline-block;
+  transition: transform 0.2s var(--ease-out-quart);
+}
+a:hover .arrow-nudge,
+a:focus-visible .arrow-nudge {
+  transform: translateX(4px);
+}
+
+/* Dòng thời gian: mốc hiện lần lượt theo vị trí (--pin-delay), mốc kế tiếp có vòng nhịp.
+   Chỉ scale (không bắt đầu từ opacity 0) để mốc vẫn thấy được nếu animation không chạy. */
+@keyframes pin-in {
+  from { transform: scale(0.5); }
+  to { transform: scale(1); }
+}
+.timeline-pin {
+  animation: pin-in 0.5s var(--ease-out-expo) backwards;
+  animation-delay: var(--pin-delay, 0ms);
+}
+.timeline-pin:hover,
+.timeline-pin:focus-visible {
+  z-index: 30;
+}
+@keyframes pulse-ring {
+  0% { transform: scale(1); opacity: 0.9; }
+  100% { transform: scale(1.3, 1.6); opacity: 0; }
+}
+.timeline-pin[data-next='true']::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: inherit;
+  border: 2px solid var(--color-lime);
+  pointer-events: none;
+  animation: pulse-ring 1.8s var(--ease-out-quart) infinite;
+}
+/* Nhãn tên bài hiện khi hover/focus mốc (desktop chỉ có ngày trên mốc). */
+.pin-tip {
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.15s var(--ease-out-quart), transform 0.2s var(--ease-out-quart);
+}
+.timeline-pin:hover .pin-tip,
+.timeline-pin:focus-visible .pin-tip {
+  opacity: 1;
+  transform: translateY(0);
+}
+@keyframes now-breathe {
+  0%, 100% { box-shadow: 0 0 6px 0 rgb(212 255 58 / 0.35); }
+  50% { box-shadow: 0 0 16px 2px rgb(212 255 58 / 0.7); }
+}
+.now-line {
+  animation: now-breathe 2.4s ease-in-out infinite;
+}
+
+/* Thẻ môn: mã môn làm hình nền bằng ::before (không phải chữ trong DOM → không bị đọc,
+   không tính tương phản), trượt nhẹ và đậm lên khi hover. */
+.subject-card::before {
+  content: attr(data-code);
+  position: absolute;
+  right: -6px;
+  bottom: -22px;
+  font-family: var(--font-display);
+  font-size: 108px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  color: var(--wm);
+  pointer-events: none;
+  transition: transform 0.4s var(--ease-out-expo);
+}
+.subject-card:hover::before {
+  transform: translateX(-10px);
+}
+.subject-card .card-go {
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: opacity 0.2s var(--ease-out-quart), transform 0.2s var(--ease-out-quart);
+}
+.subject-card:hover .card-go,
+.subject-card:focus-visible .card-go {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Cuộn tới đâu hiện tới đó (chỉ khi trình duyệt hỗ trợ scroll-driven animation;
+   không hỗ trợ thì nội dung hiện sẵn). Linear vì tiến trình gắn với thanh cuộn. */
+/* Dùng thuộc tính `translate` (không phải transform) để hiệu ứng nhấc lên khi hover vẫn chạy. */
+@keyframes reveal-up {
+  from { opacity: 0.2; translate: 0 28px; }
+  to { opacity: 1; translate: 0 0; }
+}
+@keyframes seg-grow {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+@supports (animation-timeline: view()) {
+  .reveal {
+    animation: reveal-up linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 70%;
+  }
+  .seg-grow {
+    transform-origin: left;
+    animation: seg-grow linear both;
+    animation-timeline: view();
+    animation-range: entry 40% cover 35%;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

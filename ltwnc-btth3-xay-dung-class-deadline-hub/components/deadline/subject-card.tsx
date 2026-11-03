@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react';
 import Link from 'next/link';
 import { NextUp } from '@/components/time/next-up';
 import type { Deadline, Subject } from '@/lib/types';
@@ -9,26 +10,32 @@ interface SubjectCardProps {
   renderedAt: number;
 }
 
+// Mã môn cỡ lớn làm hình nền được vẽ bằng `.subject-card::before` (globals.css) từ data-code/--wm.
 export function SubjectCard({ subject, deadlines, renderedAt }: SubjectCardProps) {
   return (
     <Link
       href={`/subjects/${subject.slug}`}
-      className="relative flex min-h-[220px] flex-col gap-4 overflow-hidden rounded-panel border border-line bg-card p-[22px] text-ink hover:text-ink motion-safe:transition-transform motion-safe:hover:-translate-y-0.5"
+      data-code={subject.code}
+      style={{ '--wm': subject.color.bg } as CSSProperties}
+      className="subject-card reveal relative flex min-h-[220px] flex-col gap-4 overflow-hidden rounded-panel border border-line bg-card p-[22px] text-ink hover:border-[#cfd3db] hover:text-ink"
     >
-      <span
-        aria-hidden="true"
-        className="absolute -bottom-[22px] -right-1.5 font-display text-[108px] font-extrabold leading-none tracking-[-0.05em]"
-        style={{ color: subject.color.bg }}
-      >
-        {subject.code}
-      </span>
-      <span className="relative flex items-center gap-2">
-        <span aria-hidden="true" className="size-[10px] rounded-[3px]" style={{ background: subject.color.c }} />
-        <span className="font-mono text-[13px] font-bold" style={{ color: subject.color.ink }}>
-          {subject.code}
+      <span className="relative flex items-center justify-between gap-2">
+        <span className="flex items-center gap-2">
+          <span aria-hidden="true" className="size-[10px] rounded-[3px]" style={{ background: subject.color.c }} />
+          <span className="font-mono text-[13px] font-bold" style={{ color: subject.color.ink }}>
+            {subject.code}
+          </span>
+        </span>
+        <span className="rounded-pill bg-ok-bg px-2.5 py-0.5 text-xs font-semibold text-muted">
+          {deadlines.length} deadline
         </span>
       </span>
-      <span className="relative font-display text-2xl font-bold">{subject.name}</span>
+      <span className="relative flex items-center justify-between gap-2">
+        <span className="font-display text-2xl font-bold">{subject.name}</span>
+        <span aria-hidden="true" className="card-go font-display text-xl font-bold" style={{ color: subject.color.ink }}>
+          →
+        </span>
+      </span>
       <NextUp deadlines={deadlines} renderedAt={renderedAt} />
     </Link>
   );

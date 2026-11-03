@@ -31,7 +31,7 @@ export function NextUp({ deadlines, renderedAt }: NextUpProps) {
         {deadlines.map((d) => (
           <span
             key={d.dueAt + d.title}
-            className={`h-1.5 flex-1 rounded-pill ${SEGMENT_COLOR[statusOf(d.dueAt, now)]}`}
+            className={`seg-grow h-1.5 flex-1 rounded-pill ${SEGMENT_COLOR[statusOf(d.dueAt, now)]}`}
           />
         ))}
       </span>

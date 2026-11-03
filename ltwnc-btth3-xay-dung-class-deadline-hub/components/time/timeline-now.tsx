@@ -46,7 +46,9 @@ export function TimelineNow({ renderedAt, startMs, spanMs }: TimelineNowProps) {
           background: 'repeating-linear-gradient(135deg, #1D1416 0 6px, transparent 6px 12px)',
         }}
       />
-      <div className="absolute inset-y-0 w-0.5 bg-lime" style={{ left: `${pct}%` }} />
+      <div className="now-line absolute inset-y-0 w-0.5 -translate-x-1/2 bg-lime" style={{ left: `${pct}%` }}>
+        <span className="live-dot absolute -top-1 left-1/2 size-2.5 -translate-x-1/2 rounded-full bg-lime" />
+      </div>
     </div>
   );
 }
