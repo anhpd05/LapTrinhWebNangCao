@@ -23,7 +23,7 @@
 
 | # | Vấn đề ở prototype | Cải thiện trong bản này |
 |---|---|---|
-| 1 | Mobile 390px: nav xuống dòng lộn xộn, H1 76px tràn màn hình | Nav public cuộn ngang được trên mobile (`overflow-x-auto`), tiêu đề dùng `clamp()`, sidebar app thành thanh trên cùng + drawer khi < 1024px (`AppTopBar`) |
+| 1 | Mobile 390px: nav xuống dòng lộn xộn, H1 76px tràn màn hình | Nav public xuống một hàng riêng rộng hết màn hình trên mobile (vẫn cuộn ngang được nếu thiếu chỗ), tiêu đề dùng `clamp()`, sidebar app thành thanh trên cùng + drawer khi < 1024px (`AppTopBar`) |
 | 2 | Đồng hồ re-render cả trang mỗi giây | Chỉ component đồng hồ có `setInterval`; chip "còn N ngày" cập nhật 60 giây một lần (`useNow(renderedAt, intervalMs)`) |
 | 3 | Chuyển động liên tục | Tôn trọng `prefers-reduced-motion` |
 | 4 | `role="timer"` cập nhật mỗi giây khiến trình đọc màn hình đọc liên tục | Không đặt `aria-live` cho đồng hồ; có nhãn chữ tĩnh cho trình đọc màn hình |
@@ -75,7 +75,12 @@ Email và mật khẩu lấy theo đề bài. Mật khẩu trong `data/users.jso
 
 - **Thanh tiến trình khi đổi trang** (`components/ui/nav-progress.tsx`): vạch lime 3px ở mép trên chạy ngay khi bấm link nội bộ và hoàn tất khi đường dẫn đổi; hữu ích nhất với trang SSR như `/dashboard`, `/admin`.
 - **Vào trang:** trang công khai (brand) cho các khối chính và lưới thẻ vào lần lượt (tối đa ~200 ms trễ); trang app (product) chỉ trượt nhanh 220 ms. Chỉ dịch chuyển, không bắt đầu từ opacity 0 nên không chặn LCP và nội dung luôn hiển thị nếu animation lỗi.
-- **Phản hồi chạm:** link/nút nhấc lên 2 px khi hover, lún xuống khi nhấn; ô tick "đã xong" nảy nhẹ một lần.
+- **Phản hồi chạm:** link/nút nhấc lên 2 px khi hover (chỉ trên thiết bị có chuột, tránh hover "dính" trên cảm ứng), lún xuống khi nhấn; ô tick "đã xong" nảy nhẹ một lần.
+- **Trang chủ `/`** (chuyển động mang nghĩa "thời gian đang chạy"):
+  - Hero: 3 dòng tiêu đề vào lần lượt, chấm "HÔM NAY" có vòng lan, 2 nút "Xem dòng thời gian" / "Tất cả deadline" (rộng hết màn hình trên mobile); nền lưới mờ dần và quầng sáng lime trôi chậm.
+  - Đồng hồ "Deadline gần nhất": chữ số lật khi đổi giá trị.
+  - Dòng thời gian (desktop): mốc hiện lần lượt từ trái sang phải, mốc kế tiếp có vòng nhịp, vạch "hôm nay" phát sáng; hover/focus vào mốc hiện tên bài và môn.
+  - Thẻ môn: số deadline, mũi tên hiện khi hover, thanh vạch trạng thái mọc ra khi cuộn tới (chỉ khi trình duyệt hỗ trợ `animation-timeline: view()`), chú thích màu vạch dưới tiêu đề "Theo môn học".
 - Chỉ animate `transform`, `opacity`, màu, `box-shadow`; không dùng `transition: all`; easing ease-out. Mọi chuyển động tắt hoàn toàn khi hệ điều hành bật **prefers-reduced-motion** (đã kiểm: `animation-name: none`).
 
 ## Cấu trúc thư mục
@@ -94,6 +99,7 @@ app/
   api/auth/[...nextauth]/   Handler của Auth.js
   api/me/progress/          GET tiến độ cá nhân (force-dynamic)
   error.tsx  not-found.tsx  robots.ts  sitemap.ts  layout.tsx  globals.css
+  opengraph-image.tsx       Ảnh chia sẻ chung cho /, /deadlines, /subjects/*
 components/            admin/ auth/ dashboard/ deadline/ layout/ progress/ time/ ui/ ...
 lib/
   permissions.ts       Ma trận quyền + can()  (nguồn duy nhất)
@@ -106,6 +112,7 @@ data/                  deadlines.json subjects.json users.json progress.json rev
 __tests__/             countdown / permissions / safe-callback
 auth.ts  auth.config.ts  middleware.ts  types/next-auth.d.ts
 .hostinger/site.json   Thông tin site Hostinger (không chứa bí mật)
+lighthouse/            Báo cáo Lighthouse dạng HTML (/ và /deadlines/1)
 ```
 
 ## Kết quả build: 6 route và chiến lược render
@@ -136,11 +143,11 @@ Kết quả `npm run build` (văn bản đầy đủ: [docs/build-output.txt](do
 - **`/subjects/[slug]` dùng `dynamicParams = true` + `notFound()`**: ở Next 15.5, route đặt `dynamicParams = false` bị `revalidatePath` làm cho slug hợp lệ trả về 404 (trang bị dựng lại thành trạng thái không có params). Vì vậy route cho phép `dynamicParams = true`, kiểm tra slug trong trang và gọi `notFound()` với slug không tồn tại.
 - **Kiểu JWT**: `next-auth/jwt` chỉ `export *` từ `@auth/core/jwt`, nên khai báo mở rộng kiểu `JWT` phải viết `declare module '@auth/core/jwt'` (xem `types/next-auth.d.ts`), và `@auth/core` được ghim đúng `0.41.3` trong `package.json` để module được augment khớp với bản mà `next-auth` đang dùng.
 - **`ts-node` trong `devDependencies`**: Jest cần nó để đọc file cấu hình `jest.config.ts`.
-- **Google Fonts subset `vietnamese`**: cả 3 font đều khai báo `subsets: ["vietnamese", "latin"]` trong `app/layout.tsx` để hiển thị đủ dấu tiếng Việt. Bricolage Grotesque và JetBrains Mono là font biến thiên, nên không khai báo `weight` dạng danh sách (tránh lỗi build Turbopack với URL font dạng `?kit=`).
+- **Google Fonts subset `vietnamese`**: cả 3 font đều khai báo `subsets: ["vietnamese", "latin", "latin-ext"]` trong `app/layout.tsx` để hiển thị đủ dấu tiếng Việt (các chữ ă/đ/ơ/ư nằm ở cả range `vietnamese` lẫn `latin-ext`). Bricolage Grotesque và JetBrains Mono là font biến thiên, nên không khai báo `weight` dạng danh sách (tránh lỗi build Turbopack với URL font dạng `?kit=`).
 
 ## Danh sách file `'use client'` và lý do
 
-Mặc định mọi component là Server Component. Chỉ 33 file dưới đây khai báo `'use client'`, mỗi file đều cần state, effect, sự kiện trình duyệt hoặc hook của client (`useSession`, `usePathname`, `useNow`...).
+Mặc định mọi component là Server Component. Chỉ 35 file dưới đây khai báo `'use client'`, mỗi file đều cần state, effect, sự kiện trình duyệt hoặc hook của client (`useSession`, `usePathname`, `useNow`...).
 
 **Hạ tầng**
 
@@ -151,6 +158,7 @@ Mặc định mọi component là Server Component. Chỉ 33 file dưới đây 
 | `hooks/use-now.ts` | Hook dùng `useState`/`useEffect`; trả `renderedAt` ở lần render đầu rồi cập nhật theo chu kỳ để tránh lỗi hydration |
 | `app/error.tsx` | Error boundary bắt buộc phải là Client Component (nút "Thử lại") |
 | `app/(app)/dashboard/error.tsx` | Error boundary riêng cho dashboard (nút "Thử lại") |
+| `components/ui/nav-progress.tsx` | `usePathname` + sự kiện click để chạy thanh tiến trình khi đổi trang |
 
 **Xác thực**
 
@@ -194,6 +202,7 @@ Mặc định mọi component là Server Component. Chỉ 33 file dưới đây 
 | `components/progress/complete-toggle.tsx` | Ô tick đánh dấu xong, `useOptimistic` + `useTransition` gọi Server Action |
 | `components/progress/my-status-card.tsx` | Thẻ "Trạng thái của bạn": `useSession` + tiến độ phía client + `toggleCompleteAction` |
 | `components/dashboard/mark-done-button.tsx` | Nút "Đánh dấu đã xong" dùng `useActionState` gọi Server Action |
+| `components/progress/progress-status-chip.tsx` | `useProgress()`: chip ở trang môn đổi thành "Đã xong" khi người đăng nhập đã tick, trang vẫn tĩnh |
 
 **Quản trị**
 
@@ -225,7 +234,7 @@ Ma trận quyền nằm ở **một nơi duy nhất**, `lib/permissions.ts`; mid
 
 - **Cấu hình:** tạo GitHub OAuth App với *Authorization callback URL* là `<SITE_URL>/api/auth/callback/github` (local: `http://localhost:3000/api/auth/callback/github`; production: `https://deadline.anhpddev.com/api/auth/callback/github`). Mỗi OAuth App chỉ có một callback URL nên local và production dùng hai app riêng. Điền `AUTH_GITHUB_ID`, `AUTH_GITHUB_SECRET`; Auth.js tự đọc.
 - **Quyền theo email:** `auth.ts` lấy email **primary đã xác minh** của tài khoản GitHub (gọi `/user/emails`, bỏ qua email chưa xác minh). Email trùng một tài khoản trong `data/users.json` thì dùng luôn tài khoản đó (cùng `id`, vai trò, mã SV, tiến độ). Không trùng thì là `user` (sinh viên) với `id` cố định `gh-<githubId>`, không có mã SV. Không ai tự nâng lên `admin` qua GitHub được.
-- **Vì sao ghép trong callback `jwt` chứ không trong `profile()`:** Auth.js gán `user.id = crypto.randomUUID()` cho user OAuth ở mỗi lần đăng nhập, nên `id` phải lấy từ `account.providerAccountId` (id GitHub) trong callback `jwt` của `auth.ts` (logic nằm ở hàm thuần `githubIdentity()` trong `lib/github-identity.ts`, có test). Callback này chạy ở Node (đọc được `users.json`); middleware vẫn chỉ dùng `auth.config.ts` (Edge-safe).
+- **Vì sao ghép trong callback `jwt` chứ không trong `profile()`:** Auth.js gán `user.id = crypto.randomUUID()` cho user OAuth ở mỗi lần đăng nhập, nên `id` phải lấy từ `account.providerAccountId` (id GitHub) trong callback `jwt` của `auth.ts`. Callback này chạy ở Node (đọc được `users.json`); middleware vẫn chỉ dùng `auth.config.ts` (Edge-safe).
 - **Lỗi:** huỷ trên GitHub hoặc OAuth lỗi thì Auth.js đưa về `/login?error=…`, form hiện thông báo tiếng Việt dưới nút GitHub.
 
 ### Ba lớp kiểm tra (defense in depth)
@@ -237,6 +246,45 @@ Ma trận quyền nằm ở **một nơi duy nhất**, `lib/permissions.ts`; mid
 | 3. Server Action | `authorize()` trong `lib/actions.ts` | Thứ tự: auth → `can()` → validate (zod) → ghi → `revalidatePath` → log. `userId` luôn lấy từ session, không bao giờ lấy từ input của client |
 
 **Server Action gọi được trực tiếp.** Mỗi Server Action là một endpoint POST, gọi được từ bất kỳ đâu bằng header `Next-Action`, không đi qua matcher của middleware. Bằng chứng (replay `deleteDeadlineAction`): khi gửi lại request xoá bằng cookie của guest hoặc của sinh viên, server trả `{}` và `data/deadlines.json` **không đổi**; với cookie của admin thì action chạy thành công. Nghĩa là lớp 3 tự bảo vệ dữ liệu dù lớp 1 và 2 bị bỏ qua.
+
+## SEO
+
+| Yêu cầu | Cách làm | File |
+|---|---|---|
+| Metadata động cho `/deadlines/[id]` | `generateMetadata` đọc deadline theo id: `title`, `description`, `canonical`, `openGraph`, `twitter:card = summary_large_image` | `app/(public)/deadlines/[id]/page.tsx` |
+| Ảnh chia sẻ riêng từng deadline | Route `ImageResponse` 1200x630 vẽ tên bài, môn, hạn nộp theo màu của môn; nạp font `.ttf` để không vỡ dấu tiếng Việt | `app/(public)/deadlines/[id]/opengraph-image/route.tsx`, `assets/fonts/` |
+| Ảnh chia sẻ chung | `/`, `/deadlines`, `/subjects/*` dùng chung một ảnh OG | `app/opengraph-image.tsx` |
+| Sitemap gồm mọi deadline | `/`, `/deadlines`, 4 trang môn và từng `/deadlines/<id>` (đọc từ `data/deadlines.json`) | `app/sitemap.ts` |
+| Robots chặn `/dashboard`, `/admin` | `disallow: ['/dashboard', '/admin']`, kèm đường dẫn sitemap | `app/robots.ts` |
+| `/login`, `/dashboard` không được lập chỉ mục | `robots: { index: false, follow: false }` ở trang login và ở layout `(app)` (áp cho `/dashboard`, `/admin`); 403 và 404 cũng `noindex` | `app/(public)/login/page.tsx`, `app/(app)/layout.tsx` |
+| JSON-LD `BreadcrumbList` ở trang chi tiết | Trang chủ → Deadline → tên bài; trang chủ có thêm JSON-LD `WebSite` | `components/json-ld.tsx`, `[id]/page.tsx`, `app/(public)/page.tsx` |
+| `next/font` hỗ trợ tiếng Việt | 3 font `next/font/google`, subset `vietnamese` | `app/layout.tsx` |
+| `next/image` | Thẻ "Khi chia sẻ link" ở trang chi tiết hiển thị ảnh OG của chính deadline bằng `<Image>` | `components/deadline/share-preview.tsx` |
+
+## Đối chiếu yêu cầu của đề
+
+| Mục đề | Yêu cầu | Trạng thái | Bằng chứng |
+|---|---|---|---|
+| Dữ liệu | JSON phía server, 4 môn, ~12 deadline; 2 tài khoản bắt buộc | Đạt | `data/subjects.json` (4), `data/deadlines.json` (12), [Tài khoản thử](#tài-khoản-thử) |
+| A | 6 route đúng chiến lược render | Đạt | [Kết quả build](#kết-quả-build-6-route-và-chiến-lược-render) |
+| A | Id không tồn tại hiện 404 của dự án | Đạt | `/deadlines/999`, `/subjects/khong-co` gọi `notFound()` → `app/not-found.tsx`, HTTP 404 |
+| B | Route group `(public)` và `(app)`, mỗi nhóm một layout | Đạt | `app/(public)/layout.tsx`, `app/(app)/layout.tsx` |
+| B | `/dashboard` layout lồng (sidebar), menu tô sáng trang hiện tại | Đạt | `app/(app)/layout.tsx` (sidebar) + `app/(app)/dashboard/layout.tsx`; `sidebar-nav.tsx` dùng `usePathname` |
+| B | loading, error (nút "Thử lại"), not-found | Đạt | `loading.tsx` (skeleton) ở `(app)`, `dashboard`, `admin`, `deadlines/(list)`; `app/error.tsx`, `app/(app)/dashboard/error.tsx`; `app/not-found.tsx` |
+| B | Mặc định Server Component, `'use client'` chỉ ở chỗ cần tương tác | Đạt | [Danh sách file `'use client'`](#danh-sách-file-use-client-và-lý-do) |
+| C | NextAuth Credentials, session JWT | Đạt | `auth.ts`: Credentials + `bcryptjs`, `session: { strategy: 'jwt' }` |
+| C | `id`, `role` trong session, kiểu TS đầy đủ, role không là `string` | Đạt | `types/next-auth.d.ts`: `role: Role` (`'user' \| 'admin'`) |
+| C | Header hiện tên, vai trò, nút Đăng nhập/Đăng xuất | Đạt | `components/auth/user-menu.tsx` (avatar, tên, nhãn vai trò, "Đăng xuất"; khách thấy "Đăng nhập") |
+| D | Ma trận quyền một nơi, `can(role, action)` | Đạt | [Phân quyền](#phân-quyền), `lib/permissions.ts` |
+| D | Middleware: chưa đăng nhập → `/login?callbackUrl=…`; user vào `/admin` → `/403` | Đạt | `middleware.ts` |
+| D | `/admin` và mọi Server Action tự kiểm tra quyền; validate input | Đạt | [Ba lớp kiểm tra](#ba-lớp-kiểm-tra-defense-in-depth), zod trong `lib/validation.ts` |
+| E | Metadata động, ảnh chia sẻ, sitemap, robots, noindex, JSON-LD, `next/font`, `next/image` | Đạt | [SEO](#seo) |
+| E | Lighthouse trên bản production cho `/` và `/deadlines/[id]` | Đạt | [Điểm Lighthouse](#điểm-lighthouse) |
+| Nộp | Không kèm `node_modules`, `.next` | Đạt | `.gitignore` |
+| Nộp | README: cách chạy, ảnh build + lý do, Lighthouse, ảnh view-source, 2 câu hỏi | Đạt | Các mục trong file này |
+| Điểm cộng | Test Jest cho `can()` | Đạt | [Kiểm thử](#kiểm-thử-điểm-cộng) |
+| Điểm cộng | Deploy | Làm trên Hostinger thay vì Vercel (lý do ở [Deploy](#deploy-hostinger)) | https://deadline.anhpddev.com |
+| Điểm cộng | Đăng nhập GitHub (OAuth) | Đạt | [Đăng nhập bằng GitHub](#đăng-nhập-bằng-github), `auth.ts` |
 
 ## Câu hỏi bắt buộc
 
@@ -267,14 +315,14 @@ Jest gồm **3 suite, 44 test**: `__tests__/permissions.test.ts` (ma trận `can
 
 ## Điểm Lighthouse
 
-Đo bằng Lighthouse (CLI) trên bản production chạy local (`npm run build && npm start`, http://localhost:3000), chế độ **mobile mặc định** (mô phỏng 4G chậm + CPU chậm 4x), Chrome headless, ngày 2026-11-03. Báo cáo gốc: `lighthouse/*.report.html|json`.
+Đo bằng Lighthouse (CLI) trên bản production chạy local (`npm run build && npm start`, http://localhost:3000), chế độ **mobile mặc định** (mô phỏng 4G chậm + CPU chậm 4x), Chrome headless, ngày 2026-11-03. Báo cáo gốc: `lighthouse/home.report.html`, `lighthouse/deadline-1.report.html` (mở bằng trình duyệt; file HTML đã nhúng sẵn dữ liệu JSON nên không commit thêm file `.json`).
 
 | Trang | Performance | Accessibility | Best Practices | SEO | LCP | CLS | TBT |
 |---|---|---|---|---|---|---|---|
 | `/` | 79 | 100 | 100 | 100 | 5.1 s | 0 | 140 ms |
 | `/deadlines/1` | 79 | 100 | 100 | 100 | 5.0 s | 0 | 160 ms |
 
-Ghi chú trung thực: Performance dưới 90 vì LCP khoảng 4.9 s trong điều kiện mô phỏng 4G chậm + CPU chậm 4x; LCP là chữ H1 và phần lớn thời gian là chờ render (tải 18 file font). Đã thử thêm subset `latin-ext` và bỏ weight 500 nhưng số đo không đổi, nên chưa coi là đã tối ưu xong. Accessibility, Best Practices và SEO đều đạt 100.
+Ghi chú trung thực: Performance dưới 90 vì LCP khoảng 4.9 s trong điều kiện mô phỏng 4G chậm + CPU chậm 4x; LCP là chữ H1 và phần lớn thời gian là chờ render (tải 18 file font). Đã thử thêm subset `latin-ext` và bỏ weight 500 nhưng số đo không đổi, nên chưa coi là đã tối ưu xong. Accessibility, Best Practices và SEO đều đạt 100. Số đo này có **trước** đợt nâng cấp chuyển động trang chủ (mục [Chuyển động và phản hồi](#chuyển-động-và-phản-hồi-ux)); chưa đo lại sau đợt đó.
 
 ## Deploy (Hostinger)
 

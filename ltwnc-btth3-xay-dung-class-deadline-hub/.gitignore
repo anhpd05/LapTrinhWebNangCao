@@ -42,3 +42,9 @@ next-env.d.ts
 
 # tài liệu/ảnh nộp bài giữ ở máy, không đưa lên GitHub
 /docs/
+
+# cache plugin SWC do Next tạo khi chạy dev
+/.swc/
+
+# Lighthouse: chỉ commit báo cáo HTML (đã nhúng sẵn toàn bộ JSON bên trong)
+/lighthouse/*.json
