@@ -1,15 +1,39 @@
-import type { Metadata } from 'next';
-import { DarkBand } from '@/components/layout/dark-band';
-import { PublicHeader } from '@/components/layout/public-header';
+import { AdminToastProvider } from '@/components/admin/admin-toast';
+import { CreateDeadlineForm } from '@/components/admin/create-deadline-form';
+import { DeadlineTable } from '@/components/admin/deadline-table';
+import { RevalidateLog } from '@/components/admin/revalidate-log';
+import { getDeadlines, getSubjects } from '@/lib/data';
+import { requirePermission } from '@/lib/session';
 
-export const metadata: Metadata = { robots: { index: false, follow: false } };
+const DAY_MS = 24 * 60 * 60 * 1000;
+const VN_OFFSET_MS = 7 * 60 * 60 * 1000;
+const DEFAULT_DUE_IN_DAYS = 14;
 
-// Trang tạm cho phase 2 (kiểm tra middleware). Phase 4 thay bằng trang quản trị thật.
-export default function AdminPlaceholderPage() {
+/** Ngày hạn mặc định: hôm nay + 14 ngày, theo lịch giờ VN, dạng YYYY-MM-DD. */
+function defaultDueDate(now: number): string {
+  return new Date(now + VN_OFFSET_MS + DEFAULT_DUE_IN_DAYS * DAY_MS).toISOString().slice(0, 10);
+}
+
+// SSR: chỉ lớp trưởng (admin) vào được. Middleware chặn trước, đây là lớp kiểm tra thứ hai.
+export default async function AdminPage() {
+  await requirePermission('deadline:create', '/admin');
+  const [deadlines, subjects] = await Promise.all([getDeadlines(), getSubjects()]);
+  const now = Date.now();
+
   return (
-    <DarkBand>
-      <PublicHeader />
-      <h1 className="mx-auto max-w-[1280px] px-6 py-10 font-display text-4xl font-extrabold">Quản trị (tạm)</h1>
-    </DarkBand>
+    <AdminToastProvider>
+      <div className="flex flex-col gap-1.5">
+        <span className="font-mono text-[13px] tracking-[0.08em] text-muted">
+          QUẢN TRỊ · {deadlines.length} DEADLINE
+        </span>
+        <h1 className="font-display text-[clamp(32px,6vw,46px)] font-extrabold leading-none tracking-[-0.03em]">
+          Thêm &amp; xoá deadline
+        </h1>
+      </div>
+      <CreateDeadlineForm subjects={subjects} renderedAt={now} defaultDate={defaultDueDate(now)}>
+        <RevalidateLog />
+      </CreateDeadlineForm>
+      <DeadlineTable deadlines={deadlines} subjects={subjects} />
+    </AdminToastProvider>
   );
 }
