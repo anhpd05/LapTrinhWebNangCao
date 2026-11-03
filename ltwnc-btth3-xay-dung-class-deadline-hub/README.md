@@ -230,7 +230,8 @@ Ma trận quyền nằm ở **một nơi duy nhất**, `lib/permissions.ts`; mid
 
 - Đây là trang **công khai**, nên cần HTML tĩnh dựng sẵn cho SEO (`<title>`, `og:image`, JSON-LD), ảnh OG và tốc độ: phục vụ từ cache, không đọc file JSON ở mỗi request.
 - Dữ liệu chỉ đổi khi admin thêm/xoá. `revalidatePath` làm mới đúng trang cần làm mới, đúng lúc cần: không phải SSR ở mỗi request, và cũng không phải chờ build lại như SSG thuần.
-- `dynamicParams = true` cho phép id mới tạo sau khi build vẫn có trang (xem được ngay sau khi thêm); id đã xoá hoặc không tồn tại trả 404 (`notFound()`).
+- `dynamicParams = true` cho phép id mới tạo sau khi build vẫn có trang (xem được ngay sau khi thêm). Id chưa từng tồn tại (ví dụ `/deadlines/999`) trả **HTTP 404** thật (`notFound()`).
+- **Hạn chế đã đo trên bản thật (Next 15.5.28):** id đã được dựng sẵn rồi bị admin xoá (ví dụ #12, #13) hiển thị đúng trang "Mốc này không có trên dòng thời gian." ngay sau khi xoá, nhưng mã HTTP vẫn là **200** (soft 404) vì mã trạng thái ban đầu của trang được cache không đổi theo lần dựng lại. Nội dung đúng, chỉ mã trạng thái chưa đúng; chưa có cách sửa nào được kiểm chứng.
 - `revalidate = 3600` là lưới an toàn nếu có thao tác nào sót.
 - Đối chiếu: `/deadlines` (danh sách) chỉ làm mới theo chu kỳ 60 giây vì chấp nhận trễ; `/deadlines/[id]` cần đúng ngay sau khi admin thao tác nên dùng ISR on-demand.
 
