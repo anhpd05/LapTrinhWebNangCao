@@ -34,7 +34,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   );
 
   return (
-    <div className="flex min-h-screen flex-col lg:flex-row">
+    <div className="motion-app flex min-h-screen flex-col lg:flex-row">
       <aside className="hidden w-[264px] flex-none flex-col gap-[26px] overflow-y-auto bg-ink px-4 py-[22px] text-[#f4f5f7] lg:sticky lg:top-0 lg:flex lg:h-screen">
         <div className="px-2">
           <Logo />

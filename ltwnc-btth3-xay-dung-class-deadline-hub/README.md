@@ -71,6 +71,13 @@ npm test                    # Jest
 
 Email và mật khẩu lấy theo đề bài. Mật khẩu trong `data/users.json` được lưu dạng hash bcrypt.
 
+## Chuyển động và phản hồi (UX)
+
+- **Thanh tiến trình khi đổi trang** (`components/ui/nav-progress.tsx`): vạch lime 3px ở mép trên chạy ngay khi bấm link nội bộ và hoàn tất khi đường dẫn đổi; hữu ích nhất với trang SSR như `/dashboard`, `/admin`.
+- **Vào trang:** trang công khai (brand) cho các khối chính và lưới thẻ vào lần lượt (tối đa ~200 ms trễ); trang app (product) chỉ trượt nhanh 220 ms. Chỉ dịch chuyển, không bắt đầu từ opacity 0 nên không chặn LCP và nội dung luôn hiển thị nếu animation lỗi.
+- **Phản hồi chạm:** link/nút nhấc lên 2 px khi hover, lún xuống khi nhấn; ô tick "đã xong" nảy nhẹ một lần.
+- Chỉ animate `transform`, `opacity`, màu, `box-shadow`; không dùng `transition: all`; easing ease-out. Mọi chuyển động tắt hoàn toàn khi hệ điều hành bật **prefers-reduced-motion** (đã kiểm: `animation-name: none`).
+
 ## Cấu trúc thư mục
 
 ```
@@ -257,8 +264,8 @@ Jest gồm **3 suite, 44 test**: `__tests__/permissions.test.ts` (ma trận `can
 
 | Trang | Performance | Accessibility | Best Practices | SEO | LCP | CLS | TBT |
 |---|---|---|---|---|---|---|---|
-| `/` | 78 | 100 | 100 | 100 | 4.9 s | 0 | 210 ms |
-| `/deadlines/1` | 79 | 100 | 100 | 100 | 4.9 s | 0 | 130 ms |
+| `/` | 79 | 100 | 100 | 100 | 5.1 s | 0 | 140 ms |
+| `/deadlines/1` | 79 | 100 | 100 | 100 | 5.0 s | 0 | 160 ms |
 
 Ghi chú trung thực: Performance dưới 90 vì LCP khoảng 4.9 s trong điều kiện mô phỏng 4G chậm + CPU chậm 4x; LCP là chữ H1 và phần lớn thời gian là chờ render (tải 18 file font). Đã thử thêm subset `latin-ext` và bỏ weight 500 nhưng số đo không đổi, nên chưa coi là đã tối ưu xong. Accessibility, Best Practices và SEO đều đạt 100.
 
